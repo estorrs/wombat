@@ -132,7 +132,7 @@ def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='/usr/bin/java',
     return cmd
 
 
-def cromwell_commands(dconfig, cwl_fp, inputs_fp, workflow_dir, args, volumes):
+def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes):
     mv_command, jg_command = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
@@ -143,9 +143,9 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, workflow_dir, args, volumes):
 
     submit_command = submit_cwl_command(dconfig, cwl_fp, inputs_fp)
 
-    all_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command, submit_command]
+    start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
                     if c is not None]
-    return all_commands
+    return start_docker_commands, submit_command
 
 
 def write_command_file(commands, filepath):
