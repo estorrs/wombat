@@ -1,0 +1,48 @@
+af_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/filter_config/af_filter_config.ini
+assembly: GRCh38
+call_regions:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/chrlist/GRCh38.callRegions.bed.gz
+canonical_BED:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/chrlist/GRCh38.callRegions.bed
+centromere_bed:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/centromere/ucsc-centromere.GRCh38.bed
+chrlist:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/chrlist/GRCh38.d1.vd1.chrlist.txt
+classification_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/filter_config/classification_filter_config.ini
+clinvar_annotation:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/clinvar/GRCh38/clinvar_20200706.vcf.gz
+normal_bam:
+  class: File
+  path: /storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/a65f1db8-170a-4ec2-a20b-e6deff964e2c/54352f31-de32-4a52-b0c0-1ab882496fc3_wxs_gdc_realn.bam
+normal_barcode: CPT0240430002
+pindel_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/caller_config/pindel.WES.ini
+reference_fasta:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/References/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
+rescue_clinvar: true
+rescue_cosmic: true
+strelka_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/caller_config/strelka.WES.ini
+tumor_bam:
+  class: File
+  path: /storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/6da28b7b-b148-4c49-97ee-d4587b058a46/218349a8-16e2-4bcd-9c9a-690bc5152441_wxs_gdc_realn.bam
+tumor_barcode: CPT0239440006
+varscan_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/caller_config/varscan.WES.ini
+vep_cache_gz:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/v99/vep-cache.99_GRCh38.tar.gz
+vep_cache_version: 99
