@@ -138,7 +138,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes):
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
 
     start_server_command = bsub_command(
-            command=None, group=None, mem=None,
+            command='/bin/bash', group=args['group'], mem=None,
             docker='mwyczalkowski/cromwell-runner', queue=args['queue'], interactive=True)
 
     submit_command = submit_cwl_command(dconfig, cwl_fp, inputs_fp)
