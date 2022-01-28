@@ -128,7 +128,7 @@ def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='/usr/bin/java',
                        jar='/usr/local/cromwell/cromwell-47.jar'):
     cmd = f'{java} -Dconfig.file={dconfig}'
     cmd += ' -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore'
-    cmd += f' -jar {jar} -t cwl -i {inputs_fp} {cwl_fp}'
+    cmd += f' -jar {jar} run -t cwl -i {inputs_fp} {cwl_fp}'
     return cmd
 
 
