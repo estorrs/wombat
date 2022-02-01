@@ -1,0 +1,12 @@
+microsatellite:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/PECGS/ref_genome/hg38.microsatellite
+minimal_homopolymer_size: 1
+minimal_microsatellite_size: 1
+normal_bam:
+  class: File
+  path: /storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/a65f1db8-170a-4ec2-a20b-e6deff964e2c/54352f31-de32-4a52-b0c0-1ab882496fc3_wxs_gdc_realn.bam
+threads: 1
+tumor_bam:
+  class: File
+  path: /storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/6da28b7b-b148-4c49-97ee-d4587b058a46/218349a8-16e2-4bcd-9c9a-690bc5152441_wxs_gdc_realn.bam
