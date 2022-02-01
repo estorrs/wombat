@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/java -Dconfig.file=/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/tinjasmine/C3L-01232.cromwell-config-db.compute1.dat -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore -jar /usr/local/cromwell/cromwell-47.jar run -t cwl -i /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/tinjasmine/C3L-01232_inputs.yaml /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinJasmine/cwl/TinJasmine.cwl

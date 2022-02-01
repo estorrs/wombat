@@ -17,6 +17,10 @@ DEFAULT_ARGS = {
 }
 
 
+DEFAULT_CROMWELL_TEMPLATE = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'cromwell-config-db.compute1.template.dat')
+
+
 def map_host_command(h='host'):
     return f'export LSF_DOCKER_NETWORK={h}'
 
@@ -146,6 +150,20 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes):
     start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
                     if c is not None]
     return start_docker_commands, submit_command
+
+
+def save_compute1_cromwell_template(workflow_root, output_fp):
+    f = open(DEFAULT_CROMWELL_TEMPLATE)
+    lines = []
+    for line in f:
+        lines.append(line.replace('\n', ''))
+    f.close()
+
+    lines = [l.replace('WORKFLOW_ROOT', workflow_root) for l in lines]
+
+    f = open(output_fp, 'w')
+    f.write('\n'.join(lines))
+    f.close()
 
 
 def write_command_file(commands, filepath):

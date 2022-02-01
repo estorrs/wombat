@@ -1,0 +1,36 @@
+Canonical_BED:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/Canonical_BED/GRCh38.callRegions.bed
+ROI_BED:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/ROI_BED/Homo_sapiens.GRCh38.95.allCDS.2bpFlanks.biomart.withCHR.bed
+assembly: GRCh38
+bam:
+  class: File
+  path: /storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/a65f1db8-170a-4ec2-a20b-e6deff964e2c/54352f31-de32-4a52-b0c0-1ab882496fc3_wxs_gdc_realn.bam
+centromere:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/centromere/ucsc-centromere.GRCh38.bed
+chrlist:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/chrlist/GRCh38.d1.vd1.chrlist-reordered.txt
+gatk_filter_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/gatk_filter_config/VLD_FilterVCF-GATK.config.ini
+pindel_config_template:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/pindel_config_template/pindel_germline_filter_config.ini
+pindel_filter_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/pindel_filter_config/VLD_FilterVCF-pindel.config.ini
+reference:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/References/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
+sample_barcode: CPT0240430002
+varscan_filter_config:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/varscan_filter_config/VLD_FilterVCF-varscan.config.ini
+vep_cache_gz:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/v99/vep-cache.99_GRCh38.tar.gz
+vep_cache_version: 99
