@@ -52,7 +52,7 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8',
 
     base = f'bsub'
     if mem is not None:
-        base += ' -R \'rusage[mem={mem}GB]\' -M {max_mem}GB'
+        base += f' -R \'rusage[mem={mem}GB]\' -M {max_mem}GB'
 
     if queue is not None:
         base += f' -q {queue}'
