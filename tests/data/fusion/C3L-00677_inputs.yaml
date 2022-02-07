@@ -1,10 +1,10 @@
 bwts:
   class: Directory
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/Integrate_dependencies/bwts
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/bwts
 cpu: 1
 filter_database:
   class: Directory
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/FilterDatabase
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FilterDatabase
 fq_1:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R1_001.fastq.gz
@@ -13,20 +13,20 @@ fq_2:
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R2_001.fastq.gz
 fusion_annotator_dir:
   class: Directory
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/FusionAnnotator
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FusionAnnotator
 genome_db:
   class: Directory
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/ericscript_dependencies/ericscript_db_homosapiens_ensembl84
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/ericscript_dependencies/ericscript_db_homosapiens_ensembl84
 genome_lib_dir:
   class: Directory
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/STAR-Fusion_dependencies/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/STAR-Fusion_dependencies/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir
 integrate_annotations:
   class: File
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/Integrate_dependencies/annot.ensembl.GRCh38.txt
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/annot.ensembl.GRCh38.txt
 integrate_executable:
   class: File
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/INTEGRATE_0_2_6/INTEGRATE-build/bin/Integrate
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/INTEGRATE_0_2_6/INTEGRATE-build/bin/Integrate
 integrate_fasta:
   class: File
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/Integrate_dependencies/STAR/hg38.fa
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/STAR/hg38.fa
 sample: C3L-00677
