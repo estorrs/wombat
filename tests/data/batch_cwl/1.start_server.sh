@@ -8,5 +8,5 @@ mkdir -p /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/batch_cwl/4/c
 source /opt/ibm/lsfsuite/lsf/conf/lsf.conf
 export LSF_DOCKER_NETWORK=host
 export LSF_DOCKER_VOLUMES="/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/batch_cwl:/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/batch_cwl /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline:/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline /storage1/fs1/dinglab/Active:/storage1/fs1/dinglab/Active /storage1/fs1/m.wyczalkowski/Active:/storage1/fs1/m.wyczalkowski/Active /scratch1/fs1/dinglab/estorrs:/scratch1/fs1/dinglab/estorrs"
-bgadd -L 25 /estorrs/test_cromwell
-bsub -q dinglab-interactive -G compute-dinglab -a 'docker(mwyczalkowski/cromwell-runner)' -g /estorrs/test_cromwell -J e0aac8fa-d888-4b10-9436-1ec353dd3301 -Is '/bin/bash'
+bgadd -L 25 /estorrs/test_cromwell_hello
+bsub -q dinglab-interactive -G compute-dinglab -a 'docker(mwyczalkowski/cromwell-runner)' -g /estorrs/test_cromwell_hello -J c6ad7c47-481a-4649-bdf0-86c0f8f18eb1 -Is '/bin/bash'
