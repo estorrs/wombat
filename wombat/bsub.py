@@ -152,7 +152,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=N
 
     start_docker_commands = []
     if workflow_root is not None:
-        start_docker_commands += create_cromwell_workdir_command(workflow_root)
+        start_docker_commands += [create_cromwell_workdir_command(workflow_root)]
     start_docker_commands += [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
                               if c is not None]
     return start_docker_commands, submit_command
