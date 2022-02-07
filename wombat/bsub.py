@@ -20,6 +20,9 @@ DEFAULT_ARGS = {
 DEFAULT_CROMWELL_TEMPLATE = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'cromwell-config-db.compute1.template.dat')
 
+DEFAULT_CROMWELL_SERVER_TEMPLATE = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'server-cromwell-config.compute1.dat')
+
 
 def map_host_command(h='host'):
     return f'export LSF_DOCKER_NETWORK={h}'
@@ -64,7 +67,7 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8',
         base += f' -a \'docker({docker})\''
 
     if group_name is not None:
-        job_name = str(uuid.UUID4()) if job_name is None else job_name
+        job_name = str(uuid.uuid4()) if job_name is None else job_name
         base += f' -g /{username}/{group_name} -J {job_name}'
 
     if log_fp is not None:
@@ -84,11 +87,6 @@ def housekeeping_priors(log_dir, args, volumes=None):
         volumes = []
 
     if log_dir is not None:
-        try:
-            Path(log_dir).mkdir(parents=True, exist_ok=True)
-        except:
-            print(f'Failed to create log dir {log_dir}')
-
         if log_dir not in volumes:
             volumes.append(log_dir)
 
@@ -121,7 +119,7 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
 
         bsub_commands.append(c)
 
-    all_commands = [c for c in [mv_command, jg_command]
+    all_commands = [c for c in [f'mkdir -p {log_dir}', mv_command, jg_command]
                     if c is not None]
     all_commands += bsub_commands
 
@@ -136,20 +134,65 @@ def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='/usr/bin/java',
     return cmd
 
 
-def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes):
+def create_cromwell_workdir_command(workflow_root):
+    cmd = f'mkdir -p {workflow_root}/cromwell-workdir/logs'
+    return cmd
+
+
+def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=None):
     mv_command, jg_command = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
 
     start_server_command = bsub_command(
-            command='/bin/bash', group=args['group'], mem=None,
+            command='/bin/bash', group=args['group'], group_name=args['group_name'], mem=None,
             docker='mwyczalkowski/cromwell-runner', queue=args['queue'], interactive=True)
 
     submit_command = submit_cwl_command(dconfig, cwl_fp, inputs_fp)
 
-    start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
-                    if c is not None]
+    start_docker_commands = []
+    if workflow_root is not None:
+        start_docker_commands += create_cromwell_workdir_command(workflow_root)
+    start_docker_commands += [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
+                              if c is not None]
     return start_docker_commands, submit_command
+
+
+def start_cromwell_server_command(
+        dconfig, java='/usr/bin/java', jar='/usr/local/cromwell/cromwell-47.jar'):
+    cmd = f'{java} -Dconfig.file={dconfig}'
+    cmd += f' -jar {jar} server'
+    return cmd
+
+
+def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
+                            run_names, log_dir, run_dir,
+                            args, volumes):
+    mv_command, jg_command = housekeeping_priors(None, args, volumes=volumes)
+    mh_command = map_host_command()
+    source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
+
+    start_server_command = bsub_command(
+            command='/bin/bash', group=args['group'], group_name=args['group_name'], mem=None,
+            docker='mwyczalkowski/cromwell-runner', queue=args['queue'], interactive=True)
+
+    start_cromwell_command = start_cromwell_server_command(server_config)
+
+    submit_commands = [submit_cwl_command(dconfig, cwl_fp, fp)
+                       for fp, name, dconfig in zip(inputs_fps, run_names, dconfigs)]
+    submit_commands = [bsub_command(
+                           command=cmd, group=args['group'], group_name=args['group_name'],
+                           job_name=f'cromwell_launch_{name}', mem=None, docker='mwyczalkowski/cromwell-runner',
+                           queue=args['queue'], interactive=False,
+                           log_fp=os.path.join(log_dir, f'{name}.log'))
+                       for cmd, name in zip(submit_commands, run_names)]
+
+    start_docker_commands = [f'mkdir -p {log_dir}']
+    start_docker_commands += [create_cromwell_workdir_command(os.path.join(run_dir, name))
+                             for name in run_names]
+    start_docker_commands += [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
+                             if c is not None]
+    return start_docker_commands, start_cromwell_command, submit_commands
 
 
 def save_compute1_cromwell_template(workflow_root, output_fp):
