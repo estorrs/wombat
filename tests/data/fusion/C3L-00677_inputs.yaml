@@ -1,7 +1,7 @@
 bwts:
   class: Directory
   path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/bwts
-cpu: 20
+cpu: 50
 filter_database:
   class: Directory
   path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FilterDatabase
