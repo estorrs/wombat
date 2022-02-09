@@ -6,6 +6,7 @@ from pathlib import Path
 
 DEFAULT_ARGS = {
     'mem': 10,
+    'n_processes': 1,
     'max_mem': None,
     'docker': 'python:3.8',
     'queue': 'dinglab',
@@ -45,7 +46,7 @@ def job_group_status_command(group_name, username='estorrs'):
 
 def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8', queue='dinglab',
                         group='compute-dinglab', group_name=None, job_name=None, interactive=False,
-                        username='estorrs', log_fp=None):
+                        n_processes=1, username='estorrs', log_fp=None):
 
     if max_mem is None:
         max_mem = mem
@@ -56,6 +57,9 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8',
     base = f'bsub'
     if mem is not None:
         base += f' -R \'rusage[mem={mem}GB]\' -M {max_mem}GB'
+
+    if n_processes is not None:
+        base += f' -n {n_processes}'
 
     if queue is not None:
         base += f' -q {queue}'
@@ -115,7 +119,7 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
             command=command, mem=args['mem'], max_mem=args['max_mem'],
             docker=args['docker'], queue=args['queue'], group=args['group'],
             group_name=args['group_name'], job_name=job_name, interactive=args['interactive'],
-            log_fp=log_fp, username=args['username'])
+            n_processes=args['n_processes'], log_fp=log_fp, username=args['username'])
 
         bsub_commands.append(c)
 
