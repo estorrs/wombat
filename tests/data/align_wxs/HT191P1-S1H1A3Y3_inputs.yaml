@@ -1,0 +1,40 @@
+bam_name: HT191P1-S1H1A3Y3.N.aligned.bam
+job_uuid: 9755a5f3-7274-4eb0-9b80-cd861124459d
+known_snp:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.vcf.gz
+  secondaryFiles:
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.vcf.gz.tbi
+readgroup_fastq_pe_file_list:
+- forward_fastq:
+    class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CATTATCGCT-CTTGAAGGTT_S34_L001_R1_001.fastq.gz
+  readgroup_meta:
+    ID: HH7KNDSXY.1
+    LB: 2903382342.TWCE-HT191P1-JM1D1_1-lib1
+    PL: ILLUMINA
+    PU: HH7KNDSXY.1.CATTATCGCT-CTTGAAGGTT
+    SM: HT191P1-S1H1A3Y3
+  reverse_fastq:
+    class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CATTATCGCT-CTTGAAGGTT_S34_L001_R2_001.fastq.gz
+reference_sequence:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
+  secondaryFiles:
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.amb
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.ann
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.bwt
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.fai
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.pac
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.sa
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.dict
+thread_count: 40
