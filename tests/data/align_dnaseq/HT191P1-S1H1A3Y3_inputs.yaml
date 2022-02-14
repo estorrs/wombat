@@ -1,0 +1,37 @@
+cpu: 40
+flowcell: HH7KNDSXY
+fq_1:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CATTATCGCT-CTTGAAGGTT_S34_L001_R1_001.fastq.gz
+fq_2:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CATTATCGCT-CTTGAAGGTT_S34_L001_R2_001.fastq.gz
+index_sequencer: CATTATCGCT-CTTGAAGGTT
+known_sites:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.vcf.gz
+  secondaryFiles:
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.vcf.gz.tbi
+lane: '1'
+library_preparation: TWCE-HT191P1-JM1D1_1-lib1
+platform: ILLUMINA
+reference:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
+  secondaryFiles:
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.amb
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.ann
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.bwt
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.fai
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.pac
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa.sa
+  - class: File
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.dict
+sample: HT191P1-S1H1A3Y3.wxs.N
