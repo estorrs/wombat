@@ -9,10 +9,10 @@ fq_2:
 index_sequencer: CATTATCGCT-CTTGAAGGTT
 known_sites:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.vcf.gz
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.chr.vcf.gz
   secondaryFiles:
   - class: File
-    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.vcf.gz.tbi
+    path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.chr.vcf.gz.tbi
 lane: '1'
 library_preparation: TWCE-HT191P1-JM1D1_1-lib1
 platform: ILLUMINA
