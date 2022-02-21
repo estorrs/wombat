@@ -1,0 +1,13 @@
+HT191P1-S1H1A3Y3_23402d1f-7ea6-48d0-8553-02d5f4163aed:
+  normal:
+    flowcell: HH7KNDSXY
+    index_sequencer: CATTATCGCT-CTTGAAGGTT
+    lane: '1'
+    library_preparation: TWCE-HT191P1-JM1D1_1-lib1
+    platform: ILLUMINA
+  tumor:
+    flowcell: HFMFWDSXY
+    index_sequencer: CCAGTAGCGT-ATGTATTGGC
+    lane: '2'
+    library_preparation: TWCE-HT191P1-S1H1A3Y3D1_1-lib1
+    platform: ILLUMINA

@@ -1,0 +1,13 @@
+HT191P1-S1H1A3Y3:
+  rna-seq_tumor_R1.filepath: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/rna-seq/ht191p1-s1h1a3y3e1_1.AAGGTGTTAG-TAAGCGCGTG/ht191p1-s1h1a3y3e1_1.AAGGTGTTAG-TAAGCGCGTG.HFWJGDSXY_AAGGTGTTAG-TAAGCGCGTG_L001_R1.fastq.gz
+  rna-seq_tumor_R1.uuid: ab2eb486-8926-4329-b14c-81e9605edcc4
+  rna-seq_tumor_R2.filepath: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/rna-seq/ht191p1-s1h1a3y3e1_1.AAGGTGTTAG-TAAGCGCGTG/ht191p1-s1h1a3y3e1_1.AAGGTGTTAG-TAAGCGCGTG.HFWJGDSXY_AAGGTGTTAG-TAAGCGCGTG_L001_R1.fastq.gz
+  rna-seq_tumor_R2.uuid: 530103e2-ecc2-4400-b89b-329fb16631b0
+  wxs_normal_R1.filepath: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CATTATCGCT-CTTGAAGGTT_S34_L001_R1_001.fastq.gz
+  wxs_normal_R1.uuid: ee5aa566-1492-49bd-a44f-70a28a9bd6e1
+  wxs_normal_R2.filepath: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CATTATCGCT-CTTGAAGGTT_S34_L001_R2_001.fastq.gz
+  wxs_normal_R2.uuid: 08739a15-9bb4-4ab1-82e4-67ac523d65e4
+  wxs_tumor_R1.filepath: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CCAGTAGCGT-ATGTATTGGC_S53_L002_R1_001.fastq.gz
+  wxs_tumor_R1.uuid: 53ccd273-07b5-416f-a68a-bd4953424612
+  wxs_tumor_R2.filepath: /scratch1/fs1/dinglab/estorrs/pecgs_resources/test_samples/HT191P1-S1H1A3Y3/wxs/CCAGTAGCGT-ATGTATTGGC_S53_L002_R2_001.fastq.gz
+  wxs_tumor_R2.uuid: 6fb1f30a-a19a-4702-9707-7d072d13222e
