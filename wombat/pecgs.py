@@ -80,17 +80,39 @@ def generate_input_TN_wxs_fq_T_rna_fq(sample, m, sequencing_info=None, cpu=40):
     return d
 
 
+def generate_sequencing_info_map(sequencing_info):
+    sq = sequencing_info[[True if x.lower() == 'wxs' else False
+                         for x in sequencing_info['experimental_strategy']]]
+    run_ids = sorted(set(sq.index))
+    m = {}
+    for run_id in run_ids:
+        m[run_id] = {'tumor': {}, 'normal': {}}
+
+        f = sq[sq.index == run_id]
+        for i, row in f.iterrows():
+            m[run_id][row['sample_type']]['flowcell'] = row['flowcell']
+            m[run_id][row['sample_type']]['lane'] = row['lane']
+            m[run_id][row['sample_type']]['index_sequencer'] = row['index_sequencer']
+            m[run_id][row['sample_type']]['library_preparation'] = row['library_preparation']
+            m[run_id][row['sample_type']]['platform'] = row['platform']
+    return m
+
+
 def from_run_list_TN_wxs_fq_T_rna_fq(
-        run_list, run_dir, tool_root, sequencing_info_map=None, cpu=40,
-        job_group=None, n_concurrent=None, proxy_run_dir=None):
+        run_list, run_dir, tool_root, sequencing_info=None,
+        job_group=None, n_concurrent=None, proxy_run_dir=None,
+        input_kwargs=None, additional_volumes=None):
     log_dir = os.path.join(run_dir, 'logs')
     input_dir = os.path.join(run_dir, 'inputs')
     workflow_dir = os.path.join(run_dir, 'runs')
 
+    sequencing_info_map = generate_sequencing_info_map(sequencing_info)
     inputs_fps, dconfigs, run_names = [], [], []
     for sample, d in run_list.items():
         input = generate_input_TN_wxs_fq_T_rna_fq(
-            sample, d, sequencing_info_map.get(sample), cpu=cpu)
+            sample, d, sequencing_info_map.get(sample))
+        if input_kwargs is not None:
+            input.update(input_kwargs)
         input_fp = os.path.join(input_dir, f'{sample}.input.yaml')
 
         if proxy_run_dir is None:
@@ -128,18 +150,20 @@ def from_run_list_TN_wxs_fq_T_rna_fq(
     tool_root = '/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline'
     cwl_fp = os.path.join(
         tool_root, 'cwl', 'pecgs_workflows', 'pecgs_TN_wxs_fq_T_rna_fq.cwl')
-    volumes = [run_dir, tool_root, '/storage1/fs1/dinglab/Active',
+    volumes = [run_dir, tool_root, '/storage1/fs1/dinglab',
                '/storage1/fs1/m.wyczalkowski/Active', '/scratch1/fs1/dinglab']
+    if additional_volumes is not None:
+        volumes += additional_volumes
 
     args = bsub.DEFAULT_ARGS
     if job_group is not None:
         args['group_name'] = job_group
     else:
-        args['group_name'] = 'default_pecgs_pipeline'
+        args['group_name'] = None
     if n_concurrent is not None:
         args['n_concurrent'] = n_concurrent
     else:
-        args['n_concurrent'] = 50
+        args['n_concurrent'] = 25
 
     system_run_dir = run_dir if proxy_run_dir is None else proxy_run_dir
     start_commands, cromwell_server_command, run_commands = bsub.batch_cromwell_commands(

@@ -148,3 +148,13 @@ vep_cache_gz:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/v99/vep-cache.99_GRCh38.tar.gz
 vep_cache_version: 99
+wxs_normal_flowcell: HH7KNDSXY
+wxs_normal_index_sequencer: CATTATCGCT-CTTGAAGGTT
+wxs_normal_lane: 1
+wxs_normal_library_preparation: TWCE-HT191P1-JM1D1_1-lib1
+wxs_normal_platform: ILLUMINA
+wxs_tumor_flowcell: HFMFWDSXY
+wxs_tumor_index_sequencer: CCAGTAGCGT-ATGTATTGGC
+wxs_tumor_lane: 2
+wxs_tumor_library_preparation: TWCE-HT191P1-S1H1A3Y3D1_1-lib1
+wxs_tumor_platform: ILLUMINA

@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md')) as f:
     long_description = f.read()
 
 setup(
-    # $ pip install pollock
+    # $ pip install wombat
     name='wombat',
     version='0.0.1',
     description='A wrapper tool for creating CWL tools to run on washington university Compute1 via Cromwell',
@@ -22,6 +22,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
     ],
     keywords='Cromwell CWL wombat washu washington university compute1',
     packages=find_packages(),
@@ -30,9 +32,9 @@ setup(
         ],
     include_package_data=True,
 
-    entry_points={
-        'console_scripts': [
-            'wombat=wombat.wombat:main',
-        ],
-    },
+#     entry_points={
+#         'console_scripts': [
+#             'wombat=wombat.wombat:main',
+#         ],
+#     },
 )
