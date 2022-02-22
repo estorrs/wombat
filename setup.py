@@ -29,6 +29,8 @@ setup(
     packages=find_packages(),
     python_requires='>=3.6',
     install_requires=[
+        'pyyaml',
+        'pandas',
         ],
     include_package_data=True,
 
