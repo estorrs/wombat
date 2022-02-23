@@ -140,7 +140,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
         for k, v in m.items():
             result_uuid = str(uuid.uuid4())
             data.append([
-                sample_id, utils.get_step(v), k, v, os.path.getsize(v),
+                sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
                 result_uuid, run_id, run_uuid, run_date])
         analysis_summary = pd.DataFrame(
             data,
