@@ -161,7 +161,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
             run_list_fp, ', '.join(run_list.loc[run_id, uuid_cols].to_list())])
     run_summary = pd.DataFrame(
         data=run_data,
-        columns=['run_id', 'sample_id', 'run_uuid', 'run_data', 'pipeline_name',
+        columns=['run_id', 'sample_id', 'run_uuid', 'run_date', 'pipeline_name',
                  'pipeline_version', 'pipeline_commit_id', 'run_root',
                  'run_input_config_filepath', 'run_log_filepath',
                  'runlist_filepath', 'run_input_uuids'])
