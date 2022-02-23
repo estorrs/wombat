@@ -221,6 +221,11 @@ def from_run_list(
     input_dir = os.path.join(run_dir, 'inputs')
     workflow_dir = os.path.join(run_dir, 'runs')
 
+    if proxy_run_dir is None:
+        Path(log_dir).mkdir(parents=True, exist_ok=True)
+        Path(input_dir).mkdir(parents=True, exist_ok=True)
+        Path(workflow_dir).mkdir(parents=True, exist_ok=True)
+
     sequencing_info_map = generate_sequencing_info_map(sequencing_info) if sequencing_info is not None else None
     inputs_fps, dconfigs, run_names = [], [], []
     for sample, d in run_list.items():
