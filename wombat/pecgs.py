@@ -216,7 +216,8 @@ def from_run_list(
         run_list, run_dir, tool_root, pipeline_name,
         sequencing_info=None,
         job_group=None, n_concurrent=None, proxy_run_dir=None,
-        input_kwargs=None, additional_volumes=None):
+        input_kwargs=None, additional_volumes=None,
+        cromwell_port=8127):
     log_dir = os.path.join(run_dir, 'logs')
     input_dir = os.path.join(run_dir, 'inputs')
     workflow_dir = os.path.join(run_dir, 'runs')
@@ -266,11 +267,20 @@ def from_run_list(
         run_names.append(sample)
     server_fp = os.path.join(input_dir, 'server-cromwell-config.compute1.dat')
 
+    # copy and set port on server template
+    f = open(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE)
+    lines = [l for l in f]
+    f.close()
+    for i, line in enumerate(lines):
+        if 'port' in line:
+            lines[i] = line.replace('8000', str(cromwell_port))
     if proxy_run_dir is None:
-        shutil.copy(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE, server_fp)
+        f = open(server_fp, 'w')
     else:
         proxy_server_fp = os.path.join(proxy_input_dir, 'server-cromwell-config.compute1.dat')
-        shutil.copy(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE, proxy_server_fp)
+        f = open(proxy_server_fp)
+    f.write('\n'.join(lines))
+    f.close()
 
     cwl_fp = os.path.join(
         tool_root, 'cwl', 'pecgs_workflows', f'{pipeline_name}.cwl')
