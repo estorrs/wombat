@@ -33,7 +33,6 @@ def get_step(filepath, workflow_name):
 
 
 def get_pipeline_info():
-    output = subprocess.check_output(('git', 'log', '-1')).decode('utf-8').split('\n')[0]
-    commit_id = re.sub(r'^commit\s(.*)\s.*$', r'\1', output)
-    version = re.sub(r'^commit\s.*tag:\s(),\s.*$', r'\1', output)
+    commit_id = subprocess.check_output(('git', 'rev-parse', 'HEAD')).decode('utf-8').strip()
+    version = subprocess.check_output(('git', 'describe', '--abbrev=0', '--tags')).decode('utf-8').strip()
     return commit_id, version
