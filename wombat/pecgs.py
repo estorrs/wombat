@@ -124,7 +124,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
     run_id_to_input_fp = {fp.split('.')[0]: fp for fp in input_fps}
 
     log_dir = os.path.join(run_dir, 'logs')
-    log_fps = sorted(utils.listfiles(log_dir, regex=r'*.log$'))
+    log_fps = sorted(utils.listfiles(log_dir, regex=r'.log$'))
     combined_analysis_summary = None
     run_summary = None
     run_data = []
