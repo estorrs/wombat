@@ -1,3 +1,4 @@
+import datetime
 import os
 import re
 import uuid
@@ -5,7 +6,10 @@ import shutil
 import yaml
 from pathlib import Path
 
+import pandas as pd
+
 import wombat.bsub as bsub
+import wombat.utils as utils
 
 
 COMPUTE1_TN_WXS_FQ_T_RNA_FQ_DEFAULTS = os.path.join(
@@ -98,6 +102,72 @@ def generate_sequencing_info_map(sequencing_info):
     return m
 
 
+def tidy_run(run_dir, script_fp):
+    # grab all inputs
+    to_remove = sorted(utils.listfiles(run_dir, regex=r'call-.*/inputs$'))
+    to_remove += sorted(utils.listfiles(run_dir, regex=r'call-stage.*staged_data.bam$'))
+
+    cmds = [f'rm -rf {fp}' for fp in to_remove]
+    bsub.write_command_file(cmds, script_fp)
+
+    return cmds
+
+
+def generate_analysis_summary(run_list, run_dir, workflow_name):
+    # make run summary file
+    run_list_fp = os.path.join(run_dir, 'runlist.txt')
+    run_list.to_csv(run_list_fp, sep='\t')
+    uuid_cols = [c for c in run_list.columns if '.uuid' in c]
+
+    input_dir = os.path.join(run_dir, 'inputs')
+    input_fps = sorted(utils.listfiles(input_dir, regex=r'.input.yaml$'))
+    run_id_to_input_fp = {fp.split('.')[0]: fp for fp in input_fps}
+
+    log_dir = os.path.join(run_dir, 'logs')
+    log_fps = sorted(utils.listfiles(log_dir, regex=r'*.log$'))
+    combined_analysis_summary = None
+    run_summary = None
+    run_data = []
+    for log_fp in log_fps:
+        run_id = log_fp.split('.')[0]
+        m = utils.parse_output_from_log(log_fp, workflow_name)
+
+        data = []
+        sample_id = run_list.loc[run_id, 'sample_id']
+        run_uuid = run_list.loc[run_id, 'run_uuid']
+        run_date = str(datetime.datetime.today()).split(' ')[0]
+        for k, v in m.items():
+            result_uuid = str(uuid.uuid4())
+            data.append([
+                sample_id, utils.get_step(v), k, v, os.path.getsize(v),
+                result_uuid, run_id, run_uuid, run_date])
+        analysis_summary = pd.DataFrame(
+            data,
+            columns=['sample_id', 'workflow_step', 'result_name', 'data_path',
+                           'filesize', 'result_uuid', 'run_id', 'run_uuid', 'run_date'])
+        if combined_analysis_summary is None:
+            combined_analysis_summary = analysis_summary
+        else:
+            combined_analysis_summary = pd.concat(
+                (combined_analysis_summary, analysis_summary), axis=0)
+
+
+        commit_id, version = utils.get_pipeline_info()
+        workflow_root = list(m.values())[0].split('/call-')[0]
+        run_data.append([
+            run_id, sample_id, run_uuid, run_date, workflow_name, version,
+            commit_id, workflow_root, run_id_to_input_fp[run_id], log_fp,
+            run_list_fp, ', '.join(run_list.loc[run_id, uuid_cols].to_list())])
+    run_summary = pd.DataFrame(
+        data=run_data,
+        columns=['run_id', 'sample_id', 'run_uuid', 'run_data', 'pipeline_name',
+                 'pipeline_version', 'pipeline_commit_id', 'run_root',
+                 'run_input_config_filepath', 'run_log_filepath',
+                 'runlist_filepath', 'run_input_uuids'])
+
+    return combined_analysis_summary, run_summary
+
+
 def from_run_list_TN_wxs_fq_T_rna_fq(
         run_list, run_dir, tool_root, sequencing_info=None,
         job_group=None, n_concurrent=None, proxy_run_dir=None,
@@ -147,7 +217,6 @@ def from_run_list_TN_wxs_fq_T_rna_fq(
         proxy_server_fp = os.path.join(proxy_input_dir, 'server-cromwell-config.compute1.dat')
         shutil.copy(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE, proxy_server_fp)
 
-    tool_root = '/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline'
     cwl_fp = os.path.join(
         tool_root, 'cwl', 'pecgs_workflows', 'pecgs_TN_wxs_fq_T_rna_fq.cwl')
     volumes = [run_dir, tool_root, '/storage1/fs1/dinglab',
