@@ -121,7 +121,8 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
 
     input_dir = os.path.join(run_dir, 'inputs')
     input_fps = sorted(utils.listfiles(input_dir, regex=r'.input.yaml$'))
-    run_id_to_input_fp = {fp.split('.')[0]: fp for fp in input_fps}
+    run_id_to_input_fp = {fp.split('/')[-1].split('.')[0]: fp
+                          for fp in input_fps}
 
     log_dir = os.path.join(run_dir, 'logs')
     log_fps = sorted(utils.listfiles(log_dir, regex=r'.log$'))
@@ -129,7 +130,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
     run_summary = None
     run_data = []
     for log_fp in log_fps:
-        run_id = log_fp.split('.')[0]
+        run_id = log_fp.split('/')[-1].split('.')[0]
         m = utils.parse_output_from_log(log_fp, workflow_name)
 
         data = []
