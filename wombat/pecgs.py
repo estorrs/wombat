@@ -15,6 +15,9 @@ import wombat.utils as utils
 COMPUTE1_TN_WXS_FQ_T_RNA_FQ_DEFAULTS = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_fq_T_rna_fq.yaml')
 
+COMPUTE1_TN_WXS_BAM_T_RNA_FQ_DEFAULTS = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_bam_T_rna_fq.yaml')
+
 
 def get_sequencing_info(si):
     return {
@@ -70,6 +73,36 @@ def populate_defaults_TN_wxs_fq_T_rna_fq(
     return d
 
 
+def populate_defaults_TN_wxs_bam_T_rna_fq(
+        sample, tumor_wxs_bam, normal_wxs_bam,
+        tumor_rna_fq_1, tumor_rna_fq_2, cpu=40):
+    d = {
+        'sample': sample,
+        'cpu': cpu,
+        'tumor_wxs_bam': {
+            'class': 'File',
+            'path': tumor_wxs_bam
+        },
+        'normal_wxs_bam': {
+            'class': 'File',
+            'path': normal_wxs_bam
+        },
+        'tumor_rna_fq_1': {
+            'class': 'File',
+            'path': tumor_rna_fq_1
+        },
+        'tumor_rna_fq_2': {
+            'class': 'File',
+            'path': tumor_rna_fq_2
+        }
+
+    }
+
+    d.update(yaml.safe_load(open(COMPUTE1_TN_WXS_BAM_T_RNA_FQ_DEFAULTS)))
+
+    return d
+
+
 def generate_input_TN_wxs_fq_T_rna_fq(sample, m, sequencing_info=None, cpu=40):
     d = populate_defaults_TN_wxs_fq_T_rna_fq(
         sample,
@@ -80,6 +113,16 @@ def generate_input_TN_wxs_fq_T_rna_fq(sample, m, sequencing_info=None, cpu=40):
 
     if sequencing_info is not None:
         d.update(get_sequencing_info(sequencing_info))
+
+    return d
+
+
+def generate_input_TN_wxs_bam_T_rna_fq(sample, m, cpu=40):
+    d = populate_defaults_TN_wxs_bam_T_rna_fq(
+        sample,
+        m['wxs_tumor_bam'], m['wxs_normal_bam'],
+        m['rna-seq_tumor_R1'], m['rna-seq_tumor_R2'],
+        cpu=cpu)
 
     return d
 
@@ -169,19 +212,25 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
     return combined_analysis_summary, run_summary
 
 
-def from_run_list_TN_wxs_fq_T_rna_fq(
-        run_list, run_dir, tool_root, sequencing_info=None,
+def from_run_list(
+        run_list, run_dir, tool_root, pipeline_name,
+        sequencing_info=None,
         job_group=None, n_concurrent=None, proxy_run_dir=None,
         input_kwargs=None, additional_volumes=None):
     log_dir = os.path.join(run_dir, 'logs')
     input_dir = os.path.join(run_dir, 'inputs')
     workflow_dir = os.path.join(run_dir, 'runs')
 
-    sequencing_info_map = generate_sequencing_info_map(sequencing_info)
+    sequencing_info_map = generate_sequencing_info_map(sequencing_info) if sequencing_info is not None else None
     inputs_fps, dconfigs, run_names = [], [], []
     for sample, d in run_list.items():
-        input = generate_input_TN_wxs_fq_T_rna_fq(
-            sample, d, sequencing_info_map.get(sample))
+        if pipeline_name == 'pecgs_TN_wxs_fq_T_rna_fq':
+            input = generate_input_TN_wxs_fq_T_rna_fq(
+                sample, d, sequencing_info_map.get(sample))
+        elif pipeline_name == 'pecgs_TN_wxs_bam_T_rna_fq':
+            input = generate_input_TN_wxs_bam_T_rna_fq(
+                sample, d)
+
         if input_kwargs is not None:
             input.update(input_kwargs)
         input_fp = os.path.join(input_dir, f'{sample}.input.yaml')
@@ -219,7 +268,7 @@ def from_run_list_TN_wxs_fq_T_rna_fq(
         shutil.copy(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE, proxy_server_fp)
 
     cwl_fp = os.path.join(
-        tool_root, 'cwl', 'pecgs_workflows', 'pecgs_TN_wxs_fq_T_rna_fq.cwl')
+        tool_root, 'cwl', 'pecgs_workflows', f'{pipeline_name}.cwl')
     volumes = [run_dir, tool_root, '/storage1/fs1/dinglab',
                '/storage1/fs1/m.wyczalkowski/Active', '/scratch1/fs1/dinglab']
     if additional_volumes is not None:
