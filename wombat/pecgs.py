@@ -158,7 +158,7 @@ def tidy_run(run_dir, script_fp):
             if 'Successfully completed.' in line:
                 # grab run name
                 run_id = log_fp.split('/')[-1].replace('.log', '')
-            matches = re.findall(r'cromwell-executions/[^/]+/([^/]+/call', line)
+            matches = re.findall(r'cromwell-executions/[^/]+/([^/]+)/call', line)
             if matches:
                 execution_uuid = matches[0]
 
