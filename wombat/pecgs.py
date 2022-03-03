@@ -172,6 +172,7 @@ def tidy_run(run_dir, script_fp):
     to_remove_pre += sorted(utils.listfiles(run_dir, regex=r'call-stage.*staged_data.bam$'))
 
     # only keep if the jobs have finished already
+    print(to_remove_pre)
     to_remove = []
     for fp in to_remove_pre:
         for run_id, ex_uuid in zip(run_ids, execution_uuids):
