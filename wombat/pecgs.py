@@ -165,6 +165,7 @@ def tidy_run(run_dir, script_fp):
         if run_id is not None:
             run_ids.append(run_id)
             execution_uuids.append(execution_uuid)
+    print(run_ids, execution_uuids)
 
     # grab all inputs
     to_remove_pre = sorted(utils.listfiles(run_dir, regex=r'call-.*/inputs$'))
@@ -174,6 +175,7 @@ def tidy_run(run_dir, script_fp):
     to_remove = []
     for fp in to_remove_pre:
         for run_id, ex_uuid in zip(run_ids, execution_uuids):
+            print(run_id, ex_uuid, fp)
             if run_id in fp and ex_uuid in fp:
                 to_remove.append(fp)
                 break
