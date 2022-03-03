@@ -146,9 +146,37 @@ def generate_sequencing_info_map(sequencing_info):
 
 
 def tidy_run(run_dir, script_fp):
+    # check which runs are finished
+    log_dir = os.path.join(run_dir, 'logs')
+    log_fps = sorted(utils.listfiles(log_dir, regex='.log'))
+    run_ids, execution_uuids = [], []
+    for log_fp in log_fps:
+        f = open(log_fp)
+        run_id = None
+        execution_uuid = None
+        for line in f:
+            if 'Successfully completed.' in line:
+                # grab run name
+                run_id = log_fp.split('/')[-1].replace('.log', '')
+            matches = re.findall(r'cromwell-executions/[^/]+/([^/]+/call', line)
+            if matches:
+                execution_uuid = matches[0]
+
+        if run_id is not None:
+            run_ids.append(run_id)
+            execution_uuids.append(execution_uuid)
+
     # grab all inputs
-    to_remove = sorted(utils.listfiles(run_dir, regex=r'call-.*/inputs$'))
-    to_remove += sorted(utils.listfiles(run_dir, regex=r'call-stage.*staged_data.bam$'))
+    to_remove_pre = sorted(utils.listfiles(run_dir, regex=r'call-.*/inputs$'))
+    to_remove_pre += sorted(utils.listfiles(run_dir, regex=r'call-stage.*staged_data.bam$'))
+
+    # only keep if the jobs have finished already
+    to_remove = []
+    for fp in to_remove_pre:
+        for run_id, ex_uuid in zip(run_ids, execution_uuids):
+            if run_id in fp and ex_uuid in fp:
+                to_remove.append(fp)
+                break
 
     cmds = [f'rm -rf {fp}' for fp in to_remove]
     bsub.write_command_file(cmds, script_fp)
