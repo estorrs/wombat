@@ -219,7 +219,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
         m = utils.parse_output_from_log(log_fp, workflow_name)
 
         data = []
-        sample_id = run_list.loc[run_id, 'sample_id']
+        sample_id = run_list.loc[run_id, 'case_id']
         run_uuid = run_list.loc[run_id, 'run_uuid']
         run_date = str(datetime.datetime.today()).split(' ')[0]
         for k, v in m.items():
@@ -229,7 +229,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
                 result_uuid, run_id, run_uuid, run_date])
         analysis_summary = pd.DataFrame(
             data,
-            columns=['sample_id', 'workflow_step', 'result_name', 'data_path',
+            columns=['case_id', 'workflow_step', 'result_name', 'data_path',
                            'filesize', 'result_uuid', 'run_id', 'run_uuid', 'run_date'])
         if combined_analysis_summary is None:
             combined_analysis_summary = analysis_summary
@@ -245,7 +245,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
             run_list_fp, ', '.join(run_list.loc[run_id, uuid_cols].to_list())])
     run_summary = pd.DataFrame(
         data=run_data,
-        columns=['run_id', 'sample_id', 'run_uuid', 'run_date', 'pipeline_name',
+        columns=['run_id', 'case_id', 'run_uuid', 'run_date', 'pipeline_name',
                  'pipeline_version', 'pipeline_commit_id', 'run_root',
                  'run_input_config_filepath', 'run_log_filepath',
                  'runlist_filepath', 'run_input_uuids'])
