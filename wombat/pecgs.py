@@ -197,7 +197,7 @@ def tidy_run(run_dir, script_fp):
     return cmds
 
 
-def generate_analysis_summary(run_list, run_dir, workflow_name):
+def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
     # make run summary file
     run_list_fp = os.path.join(run_dir, 'runlist.txt')
     run_list.to_csv(run_list_fp, sep='\t')
@@ -237,7 +237,7 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
             combined_analysis_summary = pd.concat(
                 (combined_analysis_summary, analysis_summary), axis=0)
 
-        commit_id, version = utils.get_pipeline_info()
+        commit_id, version = utils.get_pipeline_info(repo_root=tool_root)
         workflow_root = list(m.values())[0].split('/call-')[0]
         run_data.append([
             run_id, sample_id, run_uuid, run_date, workflow_name, version,
