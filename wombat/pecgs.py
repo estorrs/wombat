@@ -214,41 +214,53 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
     run_summary = None
     run_data = []
     for log_fp in log_fps:
-        run_id = log_fp.split('/')[-1].replace('.log', '')
+        # check to see if run is finished and completed sucessfully
+        f = open(log_fp)
+        completed = False
+        for line in f:
+            if 'Successfully completed.' in line:
+                completed = True
+                break
 
-        m = utils.parse_output_from_log(log_fp, workflow_name)
+        if completed:
+            run_id = log_fp.split('/')[-1].replace('.log', '')
 
-        data = []
-        sample_id = run_list.loc[run_id, 'case_id']
-        run_uuid = run_list.loc[run_id, 'run_uuid']
-        run_date = str(datetime.datetime.today()).split(' ')[0]
-        for k, v in m.items():
-            result_uuid = str(uuid.uuid4())
-            data.append([
-                sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
-                result_uuid, run_id, run_uuid, run_date])
-        analysis_summary = pd.DataFrame(
-            data,
-            columns=['case_id', 'workflow_step', 'result_name', 'data_path',
-                           'filesize', 'result_uuid', 'run_id', 'run_uuid', 'run_date'])
-        if combined_analysis_summary is None:
-            combined_analysis_summary = analysis_summary
-        else:
-            combined_analysis_summary = pd.concat(
-                (combined_analysis_summary, analysis_summary), axis=0)
+            m = utils.parse_output_from_log(log_fp, workflow_name)
 
-        commit_id, version = utils.get_pipeline_info(repo_root=tool_root)
-        workflow_root = list(m.values())[0].split('/call-')[0]
-        run_data.append([
-            run_id, sample_id, run_uuid, run_date, workflow_name, version,
-            commit_id, workflow_root, run_id_to_input_fp[run_id], log_fp,
-            run_list_fp, ', '.join(run_list.loc[run_id, uuid_cols].to_list())])
-    run_summary = pd.DataFrame(
-        data=run_data,
-        columns=['run_id', 'case_id', 'run_uuid', 'run_date', 'pipeline_name',
-                 'pipeline_version', 'pipeline_commit_id', 'run_root',
-                 'run_input_config_filepath', 'run_log_filepath',
-                 'runlist_filepath', 'run_input_uuids'])
+            data = []
+            sample_id = run_list.loc[run_id, 'case_id']
+            run_uuid = run_list.loc[run_id, 'run_uuid']
+            run_date = str(datetime.datetime.today()).split(' ')[0]
+            for k, v in m.items():
+                result_uuid = str(uuid.uuid4())
+                data.append([
+                    sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
+                    result_uuid, run_id, run_uuid, run_date])
+            analysis_summary = pd.DataFrame(
+                data,
+                columns=['case_id', 'workflow_step', 'result_name', 'data_path',
+                               'filesize', 'result_uuid', 'run_id', 'run_uuid', 'run_date'])
+            if combined_analysis_summary is None:
+                combined_analysis_summary = analysis_summary
+            else:
+                combined_analysis_summary = pd.concat(
+                    (combined_analysis_summary, analysis_summary), axis=0)
+
+            commit_id, version = utils.get_pipeline_info(repo_root=tool_root)
+            workflow_root = list(m.values())[0].split('/call-')[0]
+            run_data.append([
+                run_id, sample_id, run_uuid, run_date, workflow_name, version,
+                commit_id, workflow_root, run_id_to_input_fp[run_id], log_fp,
+                run_list_fp, ', '.join(run_list.loc[run_id, uuid_cols].to_list())])
+    if run_data:
+        run_summary = pd.DataFrame(
+            data=run_data,
+            columns=['run_id', 'case_id', 'run_uuid', 'run_date', 'pipeline_name',
+                     'pipeline_version', 'pipeline_commit_id', 'run_root',
+                     'run_input_config_filepath', 'run_log_filepath',
+                     'runlist_filepath', 'run_input_uuids'])
+    else:
+        run_summary = None
 
     return combined_analysis_summary, run_summary
 
