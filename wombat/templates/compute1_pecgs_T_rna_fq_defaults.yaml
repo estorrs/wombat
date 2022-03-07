@@ -1,0 +1,25 @@
+bwts:
+  class: Directory
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/bwts
+cpu: 40
+filter_database:
+  class: Directory
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FilterDatabase
+fusion_annotator_dir:
+  class: Directory
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FusionAnnotator
+genome_db:
+  class: Directory
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/ericscript_dependencies/ericscript_db_homosapiens_ensembl84
+genome_lib_dir:
+  class: Directory
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/STAR-Fusion_dependencies/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir
+integrate_annotations:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/annot.ensembl.GRCh38.txt
+integrate_executable:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/INTEGRATE_0_2_6/INTEGRATE-build/bin/Integrate
+integrate_fasta:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/STAR/hg38.fa

@@ -12,11 +12,14 @@ import wombat.bsub as bsub
 import wombat.utils as utils
 
 
-COMPUTE1_TN_WXS_FQ_T_RNA_FQ_DEFAULTS = os.path.join(
-    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_fq_T_rna_fq.yaml')
+COMPUTE1_TN_WXS_FQ_DEFAULTS = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_fq.yaml')
 
-COMPUTE1_TN_WXS_BAM_T_RNA_FQ_DEFAULTS = os.path.join(
-    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_bam_T_rna_fq.yaml')
+COMPUTE1_TN_WXS_BAM_DEFAULTS = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_bam.yaml')
+
+COMPUTE1_T_RNA_FQ_DEFAULTS = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_T_rna_fq.yaml')
 
 
 def get_sequencing_info(si):
@@ -34,10 +37,10 @@ def get_sequencing_info(si):
     }
 
 
-def populate_defaults_TN_wxs_fq_T_rna_fq(
+def populate_defaults_TN_wxs_fq(
         sample, tumor_wxs_fq_1, tumor_wxs_fq_2,
         normal_wxs_fq_1, normal_wxs_fq_2,
-        tumor_rna_fq_1, tumor_rna_fq_2, cpu=40):
+        cpu=40):
     d = {
         'sample': sample,
         'cpu': cpu,
@@ -57,25 +60,16 @@ def populate_defaults_TN_wxs_fq_T_rna_fq(
             'class': 'File',
             'path': normal_wxs_fq_2
         },
-        'tumor_rna_fq_1': {
-            'class': 'File',
-            'path': tumor_rna_fq_1
-        },
-        'tumor_rna_fq_2': {
-            'class': 'File',
-            'path': tumor_rna_fq_2
-        }
-
     }
 
-    d.update(yaml.safe_load(open(COMPUTE1_TN_WXS_FQ_T_RNA_FQ_DEFAULTS)))
+    d.update(yaml.safe_load(open(COMPUTE1_TN_WXS_FQ_DEFAULTS)))
 
     return d
 
 
-def populate_defaults_TN_wxs_bam_T_rna_fq(
+def populate_defaults_TN_wxs_bam(
         sample, tumor_wxs_bam, normal_wxs_bam,
-        tumor_rna_fq_1, tumor_rna_fq_2, cpu=40):
+        cpu=40):
     d = {
         'sample': sample,
         'cpu': cpu,
@@ -87,6 +81,18 @@ def populate_defaults_TN_wxs_bam_T_rna_fq(
             'class': 'File',
             'path': normal_wxs_bam
         },
+    }
+
+    d.update(yaml.safe_load(open(COMPUTE1_TN_WXS_BAM_DEFAULTS)))
+
+    return d
+
+
+def populate_defaults_T_rna_fq(
+        sample, tumor_rna_fq_1, tumor_rna_fq_2, cpu=40):
+    d = {
+        'sample': sample,
+        'cpu': cpu,
         'tumor_rna_fq_1': {
             'class': 'File',
             'path': tumor_rna_fq_1
@@ -98,17 +104,16 @@ def populate_defaults_TN_wxs_bam_T_rna_fq(
 
     }
 
-    d.update(yaml.safe_load(open(COMPUTE1_TN_WXS_BAM_T_RNA_FQ_DEFAULTS)))
+    d.update(yaml.safe_load(open(COMPUTE1_T_RNA_FQ_DEFAULTS)))
 
     return d
 
 
-def generate_input_TN_wxs_fq_T_rna_fq(sample, m, sequencing_info=None, cpu=40):
-    d = populate_defaults_TN_wxs_fq_T_rna_fq(
+def generate_input_TN_wxs_fq(sample, m, sequencing_info=None, cpu=40):
+    d = populate_defaults_TN_wxs_fq(
         sample,
         m['wxs_tumor_R1'], m['wxs_tumor_R2'],
         m['wxs_normal_R1'], m['wxs_normal_R2'],
-        m['rna-seq_tumor_R1'], m['rna-seq_tumor_R2'],
         cpu=cpu)
 
     if sequencing_info is not None:
@@ -117,10 +122,18 @@ def generate_input_TN_wxs_fq_T_rna_fq(sample, m, sequencing_info=None, cpu=40):
     return d
 
 
-def generate_input_TN_wxs_bam_T_rna_fq(sample, m, cpu=40):
-    d = populate_defaults_TN_wxs_bam_T_rna_fq(
+def generate_input_TN_wxs_bam(sample, m, cpu=40):
+    d = populate_defaults_TN_wxs_bam(
         sample,
         m['wxs_tumor_bam'], m['wxs_normal_bam'],
+        cpu=cpu)
+
+    return d
+
+
+def generate_input_T_rna_fq(sample, m, cpu=40):
+    d = populate_defaults_T_rna_fq(
+        sample,
         m['rna-seq_tumor_R1'], m['rna-seq_tumor_R2'],
         cpu=cpu)
 
@@ -258,12 +271,17 @@ def from_run_list(
     sequencing_info_map = generate_sequencing_info_map(sequencing_info) if sequencing_info is not None else None
     inputs_fps, dconfigs, run_names = [], [], []
     for sample, d in run_list.items():
-        if pipeline_name == 'pecgs_TN_wxs_fq_T_rna_fq':
-            input = generate_input_TN_wxs_fq_T_rna_fq(
+        if pipeline_name == 'pecgs_TN_wxs_fq':
+            input = generate_input_TN_wxs_fq(
                 sample, d, sequencing_info_map.get(sample))
-        elif pipeline_name == 'pecgs_TN_wxs_bam_T_rna_fq':
-            input = generate_input_TN_wxs_bam_T_rna_fq(
+        elif pipeline_name == 'pecgs_TN_wxs_bam':
+            input = generate_input_TN_wxs_bam(
                 sample, d)
+        elif pipeline_name == 'pecgs_T_rna_fq':
+            input = generate_input_T_rna_fq(
+                sample, d)
+        else:
+            raise RuntimeError(f'{pipeline_name} is not a valid pipeline variant')
 
         if input_kwargs is not None:
             input.update(input_kwargs)
