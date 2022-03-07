@@ -1,0 +1,5 @@
+sample_name	case	disease	experimental_strategy	sample_type	data_path	filesize	data_format	reference	UUID	system
+C3L-00677.WXS.T	C3L-00677	GBM	WXS	tumor	/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/wxs/1d6c4f0f-09c4-4472-a19e-30ee7e0ecf64_gdc_realn.bam	12345678	BAM	hg38	6e0bde4a-22c1-4e1f-a38a-dff275b61472	storage1
+C3L-00677.WXS.N	C3L-00677	GBM	WXS	blood_normal	/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/wxs/5cee818c-61e8-4441-bd9a-5c984cde9c6b_gdc_realn.bam	12345678	BAM	hg38	8919accb-6973-4ec5-b29f-9d895a1713d4	storage1
+HT191P1-S1H1A3Y3.RNA-seq.R1.T	C3L-00677	GBM	RNA-seq	tumor	/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R1_001.fastq.gz	12345678	FASTQ	NA	2983df85-958b-483c-95e5-2375426879d1	storage1
+HT191P1-S1H1A3Y3.RNA-seq.R2.T	C3L-00677	GBM	RNA-seq	tumor	/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R2_001.fastq.gz	12345678	FASTQ	NA	f840b94b-eac9-4f87-98b6-51b26b606e1a	storage1
