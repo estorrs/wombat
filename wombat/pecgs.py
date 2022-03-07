@@ -201,7 +201,8 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
     run_summary = None
     run_data = []
     for log_fp in log_fps:
-        run_id = log_fp.split('/')[-1].split('.')[0]
+        run_id = log_fp.split('/')[-1].replace('.log', '')
+
         m = utils.parse_output_from_log(log_fp, workflow_name)
 
         data = []
@@ -222,7 +223,6 @@ def generate_analysis_summary(run_list, run_dir, workflow_name):
         else:
             combined_analysis_summary = pd.concat(
                 (combined_analysis_summary, analysis_summary), axis=0)
-
 
         commit_id, version = utils.get_pipeline_info()
         workflow_root = list(m.values())[0].split('/call-')[0]
@@ -338,3 +338,64 @@ def from_run_list(
     bsub.write_command_file(run_commands, filepath)
 
     return start_commands, cromwell_server_command, run_commands
+
+
+def generate_launch_pecgs_env_cmds(volumes=None):
+    lsf_volumes = ['/storage1/fs1/dinglab/Active', '/scratch1/fs1/dinglab']
+    if volumes is not None:
+        lsf_volumes += volumes
+
+    vol_str = ' '.join([f'{v}:{v}' for v in lsf_volumes])
+    lsf_cmd = f'export LSF_DOCKER_VOLUMES="{vol_str}"'
+    path_cmd = 'export PATH="/miniconda/envs/pecgs/bin:$PATH"'
+    bsub_cmd = "bsub -q dinglab-interactive -G compute-dinglab -Is -a 'docker(estorrs/pecgs-pipeline:0.0.1)' '/bin/bash'"
+
+    return [lsf_cmd, path_cmd, bsub_cmd]
+
+
+def generate_create_run_cmd(
+        tool_root, pipeline_variant, run_list, run_dir,
+        sequencing_info=None):
+    fp = '/pecgs-pipeline/src/compute1/generate_run_commands.py'
+    if sequencing_info is not None:
+        cmd = f'python {fp} make-run --sequencing-info {sequencing_info} {pipeline_variant} {run_list} {run_dir}'
+    else:
+        cmd = f'python {fp} make-run {pipeline_variant} {run_list} {run_dir}'
+    return cmd
+
+
+def generate_tidy_cmd(tool_root, pipeline_variant, run_list, run_dir):
+    fp = '/pecgs-pipeline/src/compute1/generate_run_commands.py'
+    cmd = f'python {fp} tidy-run {pipeline_variant} {run_list} {run_dir}'
+    return cmd
+
+
+def generate_summarize_cmd(tool_root, pipeline_variant, run_list, run_dir):
+    fp = '/pecgs-pipeline/src/compute1/generate_run_commands.py'
+    cmd = f'python {fp} summarize-run {pipeline_variant} {run_list} {run_dir}'
+    return cmd
+
+
+def create_run_setup_scripts(
+        out_dir, tool_root, pipeline_variant, run_list, run_dir,
+        volumes=None, sequencing_info=None):
+
+    launch_cmds = generate_launch_pecgs_env_cmds(volumes=volumes)
+    make_cmd = generate_create_run_cmd(
+        tool_root, pipeline_variant, run_list, run_dir,
+        sequencing_info=sequencing_info)
+    tidy_cmd = generate_tidy_cmd(
+        tool_root, pipeline_variant, run_list, run_dir)
+    summarize_cmd = generate_summarize_cmd(
+        tool_root, pipeline_variant, run_list, run_dir)
+
+    filepath = os.path.join(out_dir, 'pre.launch_pecgs_container.sh')
+    bsub.write_command_file(launch_cmds, filepath)
+    filepath = os.path.join(out_dir, '1.make_run.sh')
+    bsub.write_command_file([make_cmd], filepath)
+    filepath = os.path.join(out_dir, '2.tidy_run.sh')
+    bsub.write_command_file([tidy_cmd], filepath)
+    filepath = os.path.join(out_dir, '3.summarize_run.sh')
+    bsub.write_command_file([summarize_cmd], filepath)
+
+    return launch_cmds, make_cmd, tidy_cmd, summarize_cmd
