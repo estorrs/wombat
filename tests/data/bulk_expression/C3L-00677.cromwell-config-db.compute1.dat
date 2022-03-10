@@ -50,7 +50,7 @@ backend {
         -o /dev/null \
         -e /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/bulk_expression/C3L-00677/cromwell-workdir/logs/cromwell-%J.err \
         -a "docker(${docker})" \
-        -q general \
+        -q dinglab \
         -M ${memory_mb} \
         -n ${cpu} \
         -R "select[mem>${memory_mb}] rusage[mem=${memory_mb}]" \

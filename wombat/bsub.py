@@ -201,7 +201,7 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
     return start_docker_commands, start_cromwell_command, submit_commands
 
 
-def save_compute1_cromwell_template(workflow_root, output_fp):
+def save_compute1_cromwell_template(workflow_root, output_fp, queue='general'):
     f = open(DEFAULT_CROMWELL_TEMPLATE)
     lines = []
     for line in f:
@@ -209,6 +209,7 @@ def save_compute1_cromwell_template(workflow_root, output_fp):
     f.close()
 
     lines = [l.replace('WORKFLOW_ROOT', workflow_root) for l in lines]
+    lines = [l.replace('-q general', f'-q {queue}') for l in lines]
 
     f = open(output_fp, 'w')
     f.write('\n'.join(lines))
