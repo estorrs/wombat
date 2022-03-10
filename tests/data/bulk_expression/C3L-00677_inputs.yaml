@@ -1,0 +1,16 @@
+cpu: 20
+fq_1:
+- class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R1_001.fastq.gz
+fq_2:
+- class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R2_001.fastq.gz
+gene_info:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34/gencode.gene.info.v34.tsv
+gtf:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34/gencode.v34.annotation.gtf
+star_index:
+  class: Directory
+  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34

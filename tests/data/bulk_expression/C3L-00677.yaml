@@ -1,0 +1,14 @@
+id: C3L-00677
+rna-seq:
+  tumor:
+    R1:
+      filepath: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R1_001.fastq.gz
+    R2:
+      filepath: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/rna-seq/170906_UNC32-K00270_0058_BHLJ7FBBXX_TGACCA_S4_L007_R2_001.fastq.gz
+wxs:
+  normal:
+    barcode: CPT0071960002
+    filepath: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/wxs/5cee818c-61e8-4441-bd9a-5c984cde9c6b_gdc_realn.bam
+  tumor:
+    barcode: CPT0071100006
+    filepath: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/wxs/1d6c4f0f-09c4-4472-a19e-30ee7e0ecf64_gdc_realn.bam
