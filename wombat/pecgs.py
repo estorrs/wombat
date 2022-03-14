@@ -451,7 +451,8 @@ def create_run_setup_scripts(
         tool_root, out_dir, pipeline_variant, run_list, run_dir,
         volumes=None, sequencing_info=None, queue='general'):
 
-    launch_cmds = generate_launch_pecgs_env_cmds(volumes=volumes)
+    launch_cmds = generate_launch_pecgs_env_cmds(
+        run_dir, volumes=volumes)
     make_cmd = generate_create_run_cmd(
         tool_root, pipeline_variant, run_list, run_dir,
         sequencing_info=sequencing_info, queue=queue)
