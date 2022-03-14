@@ -266,10 +266,18 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
             run_uuid = run_list.loc[run_id, 'run_uuid']
             run_date = str(datetime.datetime.today()).split(' ')[0]
             for k, v in m.items():
-                result_uuid = str(uuid.uuid4())
-                data.append([
-                    sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
-                    result_uuid, run_id, run_uuid, run_date])
+                if isinstance(v, list):
+                    for item_index, item in enumerate(v):
+                        result_uuid = str(uuid.uuid4())
+                        data.append([
+                            sample_id, utils.get_step(v, workflow_name),
+                            f'{k}.{item_index}', item, os.path.getsize(item),
+                            result_uuid, run_id, run_uuid, run_date])
+                else:
+                    result_uuid = str(uuid.uuid4())
+                    data.append([
+                        sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
+                        result_uuid, run_id, run_uuid, run_date])
             analysis_summary = pd.DataFrame(
                 data,
                 columns=['case_id', 'workflow_step', 'result_name', 'data_path',

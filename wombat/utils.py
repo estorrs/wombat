@@ -16,15 +16,32 @@ def listfiles(folder, regex=None):
 def parse_output_from_log(log_fp, workflow_name):
     f = open(log_fp)
     identifier = None
+    is_list = False
+    section_indent = None
     m = {}
     for line in f:
-        line = line.strip()
+        indent = len(re.split(r'[^ ]', line)[0])
         if f'"{workflow_name}.cwl' in line:
-            identifier = re.sub(r'^.*".*cwl.(.*)".*$', r'\1', line)
+            identifier = re.sub(r'^.*".*cwl.(.*)".*$', r'\1', line.strip())
+            section_indent = indent
+            # if output is a list of files
+            is_list = '{[' in line.strip()
+            if is_list:
+                m[identifier] = []
+
         if '"location": ' in line and identifier is not None:
-            location = re.sub(r'^.*location.*"(.*)".*$', r'\1', line)
-            m[identifier] = location
+            location = re.sub(r'^.*location.*"(.*)".*$', r'\1', line.strip())
+            if is_list and indent - 2 == section_indent:
+                m[identifier].append(location)
+            elif not is_list:
+                m[identifier] = location
+                identifier = None
+                is_list = False
+
+        if ']}' in line and is_list and indent == section_indent:
             identifier = None
+            is_list = False
+
     return m
 
 
