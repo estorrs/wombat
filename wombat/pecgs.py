@@ -18,6 +18,9 @@ COMPUTE1_TN_WXS_FQ_DEFAULTS = os.path.join(
 COMPUTE1_TN_WXS_BAM_DEFAULTS = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_bam.yaml')
 
+COMPUTE1_TN_WGS_BAM_DEFAULTS = os.path.join(
+    Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wgs_bam.yaml')
+
 COMPUTE1_T_RNA_FQ_DEFAULTS = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_T_rna_fq.yaml')
 
@@ -88,6 +91,23 @@ def populate_defaults_TN_wxs_bam(
     return d
 
 
+def populate_defaults_TN_wgs_bam(tumor_wgs_bam, normal_wgs_bam):
+    d = {
+        'tumor_wgs_bam': {
+            'class': 'File',
+            'path': tumor_wgs_bam
+        },
+        'normal_wgs_bam': {
+            'class': 'File',
+            'path': normal_wgs_bam
+        },
+    }
+
+    d.update(yaml.safe_load(open(COMPUTE1_TN_WGS_BAM_DEFAULTS)))
+
+    return d
+
+
 def populate_defaults_T_rna_fq(
         sample, tumor_rna_fq_1, tumor_rna_fq_2, cpu=40):
     d = {
@@ -134,6 +154,13 @@ def generate_input_TN_wxs_bam(sample, m, cpu=40):
         sample,
         m['wxs_tumor_bam'], m['wxs_normal_bam'],
         cpu=cpu)
+
+    return d
+
+
+def generate_input_TN_wgs_bam(m):
+    d = populate_defaults_TN_wgs_bam(
+        m['wgs_tumor_bam'], m['wgs_normal_bam'])
 
     return d
 
@@ -296,6 +323,8 @@ def from_run_list(
         elif pipeline_name == 'pecgs_TN_wxs_bam':
             input = generate_input_TN_wxs_bam(
                 sample, d)
+        elif pipeline_name == 'pecgs_TN_wgs_bam':
+            input = generate_input_TN_wgs_bam(d)
         elif pipeline_name == 'pecgs_T_rna_fq':
             input = generate_input_T_rna_fq(
                 sample, d)

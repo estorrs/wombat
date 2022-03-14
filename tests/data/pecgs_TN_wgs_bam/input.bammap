@@ -1,0 +1,3 @@
+sample_name	case	disease	experimental_strategy	sample_type	data_path	filesize	data_format	reference	UUID	system
+C3N-05929.WGS.T	C3N-05929	LSCC	WGS	tumor	/storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/c5d518a3-fc69-4d7b-a719-0aad38abe43a/23fa88f9-9293-406b-bc21-2928ff12bc8b_wgs_gdc_realn.bam	12345678	BAM	hg38	d3ddd33b-c7a3-4caf-bdd7-c05e98a19d83	storage1
+C3N-05929.WGS.N	C3N-05929	LSCC	WGS	blood_normal	/storage1/fs1/m.wyczalkowski/Active/Primary/CPTAC3.share/CPTAC3-GDC/GDC_import/data/823dda5b-ff15-4a66-b28b-de0632850623/e3bf416b-3d08-4d1b-bec4-808e55c7788c_wgs_gdc_realn.bam	12345678	BAM	hg38	7d8f4ede-1911-456e-9eee-2fafe7132f50	storage1
