@@ -100,8 +100,15 @@ def populate_defaults_T_rna_fq(
         'tumor_rna_fq_2': {
             'class': 'File',
             'path': tumor_rna_fq_2
-        }
-
+        },
+        'bulk_expression_fq_1_list': [{
+            'class': 'File',
+            'path': tumor_rna_fq_1
+        }],
+        'bulk_expression_fq_2_list': [{
+            'class': 'File',
+            'path': tumor_rna_fq_2
+        }],
     }
 
     d.update(yaml.safe_load(open(COMPUTE1_T_RNA_FQ_DEFAULTS)))
