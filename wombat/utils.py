@@ -29,7 +29,7 @@ def parse_output_from_log(log_fp, workflow_name):
             is_list = '{[' in line.strip()
             if is_list:
                 m[identifier] = []
-            logging.info(f'extracting output for {identifier}, is list: {is_list}'
+            logging.info(f'extracting output for {identifier}, is list: {is_list}')
 
         if '"location": ' in line and identifier is not None:
             location = re.sub(r'^.*location.*"(.*)".*$', r'\1', line.strip())
