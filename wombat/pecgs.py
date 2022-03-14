@@ -270,7 +270,7 @@ def from_run_list(
         sequencing_info=None,
         job_group=None, n_concurrent=None, proxy_run_dir=None,
         input_kwargs=None, additional_volumes=None,
-        cromwell_port=8127):
+        cromwell_port=8127, queue='general'):
     log_dir = os.path.join(run_dir, 'logs')
     input_dir = os.path.join(run_dir, 'inputs')
     workflow_dir = os.path.join(run_dir, 'runs')
@@ -313,12 +313,13 @@ def from_run_list(
         template_fp = os.path.join(
             input_dir, f'{sample}.cromwell-config-db.compute1.dat')
         if proxy_run_dir is None:
-            bsub.save_compute1_cromwell_template(workflow_root, template_fp)
+            bsub.save_compute1_cromwell_template(
+                workflow_root, template_fp, queue=queue)
         else:
             proxy_template_fp = os.path.join(
                 proxy_input_dir, f'{sample}.cromwell-config-db.compute1.dat')
             bsub.save_compute1_cromwell_template(
-                workflow_root, proxy_template_fp)
+                workflow_root, proxy_template_fp, queue=queue)
 
         dconfigs.append(template_fp)
 
