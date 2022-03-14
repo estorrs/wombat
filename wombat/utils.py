@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import subprocess
@@ -28,17 +29,22 @@ def parse_output_from_log(log_fp, workflow_name):
             is_list = '{[' in line.strip()
             if is_list:
                 m[identifier] = []
+            logging.info(f'extracting output for {identifier}, is list: {is_list}'
 
         if '"location": ' in line and identifier is not None:
             location = re.sub(r'^.*location.*"(.*)".*$', r'\1', line.strip())
             if is_list and indent - 2 == section_indent:
+                logging(f'extracting location from list: {location}')
                 m[identifier].append(location)
             elif not is_list:
+                logging(f'extracting location: {location}')
                 m[identifier] = location
                 identifier = None
                 is_list = False
 
         if ']}' in line and is_list and indent == section_indent:
+            print('end of list reached')
+
             identifier = None
             is_list = False
 
