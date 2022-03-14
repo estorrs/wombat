@@ -386,12 +386,15 @@ def generate_launch_pecgs_env_cmds(volumes=None):
 
 def generate_create_run_cmd(
         tool_root, pipeline_variant, run_list, run_dir,
-        sequencing_info=None):
+        sequencing_info=None, queue='general'):
     fp = os.path.join(tool_root, 'src', 'compute1', 'generate_run_commands.py')
-    if sequencing_info is not None:
-        cmd = f'python {fp} make-run --sequencing-info {sequencing_info} {pipeline_variant} {run_list} {run_dir}'
-    else:
-        cmd = f'python {fp} make-run {pipeline_variant} {run_list} {run_dir}'
+    pieces = [
+        f'python {fp} make-run',
+        f'--sequencing-info {sequencing_info}' if sequencing_info is not None else '',
+        f'--queue {queue}',
+        f'{pipeline_variant} {run_list} {run_dir}'
+    ]
+    cmd = ' '.join(pieces)
     return cmd
 
 
@@ -409,12 +412,12 @@ def generate_summarize_cmd(tool_root, pipeline_variant, run_list, run_dir):
 
 def create_run_setup_scripts(
         tool_root, out_dir, pipeline_variant, run_list, run_dir,
-        volumes=None, sequencing_info=None):
+        volumes=None, sequencing_info=None, queue='general'):
 
     launch_cmds = generate_launch_pecgs_env_cmds(volumes=volumes)
     make_cmd = generate_create_run_cmd(
         tool_root, pipeline_variant, run_list, run_dir,
-        sequencing_info=sequencing_info)
+        sequencing_info=sequencing_info, queue=queue)
     tidy_cmd = generate_tidy_cmd(
         tool_root, pipeline_variant, run_list, run_dir)
     summarize_cmd = generate_summarize_cmd(
