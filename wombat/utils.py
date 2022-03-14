@@ -20,13 +20,21 @@ def parse_output_from_log(log_fp, workflow_name):
     is_list = False
     section_indent = None
     m = {}
+    lines = []
+    add = False
     for line in f:
+        if "workflow finished with status 'Succeeded'" in line:
+            add = True
+        if add:
+            lines.append(line)
+
+    for line in lines:
         indent = len(re.split(r'[^ ]', line)[0])
         if f'"{workflow_name}.cwl' in line:
             identifier = re.sub(r'^.*".*cwl.(.*)".*$', r'\1', line.strip())
             section_indent = indent
             # if output is a list of files
-            is_list = '{[' in line.strip()
+            is_list = '[{' in line.strip()
             if is_list:
                 m[identifier] = []
             logging.info(f'extracting output for {identifier}, is list: {is_list}')
@@ -42,7 +50,7 @@ def parse_output_from_log(log_fp, workflow_name):
                 identifier = None
                 is_list = False
 
-        if ']}' in line and is_list and indent == section_indent:
+        if '}]' in line and is_list and indent == section_indent:
             print('end of list reached')
 
             identifier = None
