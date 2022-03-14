@@ -407,7 +407,8 @@ def from_run_list(
     return start_commands, cromwell_server_command, run_commands
 
 
-def generate_launch_pecgs_env_cmds(volumes=None):
+def generate_launch_pecgs_env_cmds(run_dir, volumes=None):
+    mkdir_cmd = f'mkdir -p {run_dir}'
     lsf_volumes = ['/storage1/fs1/dinglab/Active', '/scratch1/fs1/dinglab']
     if volumes is not None:
         lsf_volumes += volumes
@@ -417,7 +418,7 @@ def generate_launch_pecgs_env_cmds(volumes=None):
     path_cmd = 'export PATH="/miniconda/envs/pecgs/bin:$PATH"'
     bsub_cmd = "bsub -q dinglab-interactive -G compute-dinglab -Is -a 'docker(estorrs/pecgs-pipeline:0.0.1)' '/bin/bash'"
 
-    return [lsf_cmd, path_cmd, bsub_cmd]
+    return [mkdir_cmd, lsf_cmd, path_cmd, bsub_cmd]
 
 
 def generate_create_run_cmd(
