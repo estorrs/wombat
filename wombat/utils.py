@@ -37,7 +37,7 @@ def parse_output_from_log(log_fp, workflow_name):
                 logging(f'extracting location from list: {location}')
                 m[identifier].append(location)
             elif not is_list:
-                logging(f'extracting location: {location}')
+                logging.info(f'extracting location: {location}')
                 m[identifier] = location
                 identifier = None
                 is_list = False
