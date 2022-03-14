@@ -270,7 +270,7 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
                     for item_index, item in enumerate(v):
                         result_uuid = str(uuid.uuid4())
                         data.append([
-                            sample_id, utils.get_step(v, workflow_name),
+                            sample_id, utils.get_step(item, workflow_name),
                             f'{k}.{item_index}', item, os.path.getsize(item),
                             result_uuid, run_id, run_uuid, run_date])
                 else:
