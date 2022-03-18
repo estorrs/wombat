@@ -1,0 +1,19 @@
+bam:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/wxs/1d6c4f0f-09c4-4472-a19e-30ee7e0ecf64_gdc_realn.bam
+bed:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/refseq_hg38_june29/proteome.bed
+f_allele:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/netMHC-4.0/Linux_x86_64/data/allelelist
+input_type: a_string
+maf:
+  class: File
+  path: /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/pecgs_TN_wxs_bam/runs/C3L-00677_2a9edf1e-76df-4595-9125-fb9b9d919621/cromwell-workdir/cromwell-executions/pecgs_TN_wxs_bam.cwl/8e1e5c0e-f904-4995-9f97-2cfad0bbd9fc/call-run_tindaisy/tindaisy2.cwl/5d22279a-37e0-4f73-b58d-61624aca4f6e/call-vcf2maf/execution/result.maf
+netmhc:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/netMHC-4.0/netMHC
+ref_dir:
+  class: Directory
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/refseq_hg38_june29
