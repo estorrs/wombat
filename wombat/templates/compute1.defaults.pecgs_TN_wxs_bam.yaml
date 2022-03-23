@@ -38,6 +38,18 @@ microsatellite:
   path: /storage1/fs1/dinglab/Active/Projects/PECGS/ref_genome/hg38.microsatellite
 minimal_homopolymer_size: 1
 minimal_microsatellite_size: 1
+neoscan_bed:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/refseq_hg38_june29/proteome.bed
+neoscan_f_allele:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/netMHC-4.0/Linux_x86_64/data/allelelist
+neoscan_netmhc:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/netMHC-4.0/netMHC
+neoscan_ref_dir:
+  class: Directory
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources_backup/neoscan/refseq_hg38_june29
 pindel_config:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/caller_config/pindel.WES.ini
