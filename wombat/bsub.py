@@ -195,13 +195,13 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
                            queue=args['queue'], interactive=False,
                            log_fp=os.path.join(log_dir, f'{name}.log'))
                        for cmd, name in zip(submit_commands, run_names)]
-    submit_commands = [c for c in [source_lsf_command, mh_command, mv_command]
+    submit_commands = [c for c in [source_lsf_command, mh_command, mv_command, java_export_cmd]
                        if c is not None] + submit_commands
 
     submit_commands = [f'mkdir -p {log_dir}'] + [
         create_cromwell_workdir_command(os.path.join(run_dir, name)) for name in run_names] + submit_commands
 
-    start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, java_export_cmd, start_server_command]
+    start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
                              if c is not None]
     return start_docker_commands, start_cromwell_command, submit_commands
 
