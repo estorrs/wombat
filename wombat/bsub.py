@@ -177,7 +177,7 @@ def start_cromwell_server_command(
 def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
                             run_names, log_dir, run_dir,
                             args, volumes):
-    mv_command, jg_command = housekeeping_priors(None, args, volumes=volumes)
+    mv_command, jg_command, java_export_cmd = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
 
@@ -201,7 +201,7 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
     submit_commands = [f'mkdir -p {log_dir}'] + [
         create_cromwell_workdir_command(os.path.join(run_dir, name)) for name in run_names] + submit_commands
 
-    start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
+    start_docker_commands = [c for c in [source_lsf_command, mh_command, mv_command, jg_command, java_export_cmd, start_server_command]
                              if c is not None]
     return start_docker_commands, start_cromwell_command, submit_commands
 
