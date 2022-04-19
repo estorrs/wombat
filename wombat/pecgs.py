@@ -368,7 +368,8 @@ def from_run_list(
         dconfigs.append(template_fp)
 
         run_names.append(sample)
-#     server_fp = os.path.join(input_dir, 'server-cromwell-config.compute1.dat')
+    # leaving for now, to be removed
+    server_fp = os.path.join(input_dir, 'server-cromwell-config.compute1.dat')
 
 #     # copy and set port on server template
 #     f = open(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE)
