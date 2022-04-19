@@ -21,8 +21,8 @@ DEFAULT_ARGS = {
 DEFAULT_CROMWELL_TEMPLATE = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'cromwell-config-db.compute1.template.dat')
 
-DEFAULT_CROMWELL_SERVER_TEMPLATE = os.path.join(
-    Path(__file__).parent.absolute(), 'templates', 'server-cromwell-config.compute1.dat')
+# DEFAULT_CROMWELL_SERVER_TEMPLATE = os.path.join(
+#     Path(__file__).parent.absolute(), 'templates', 'server-cromwell-config.compute1.dat')
 
 
 def map_host_command(h='host'):
