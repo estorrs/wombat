@@ -105,11 +105,16 @@ def housekeeping_priors(log_dir, args, volumes=None):
     else:
         jg_command = None
 
-    return mv_command, jg_command
+
+    # make sure java in broad cromwell container is visible
+    java_export_cmd = f'export PATH="/opt/java/openjdk/bin:$PATH"'
+
+
+    return mv_command, jg_command, java_export_cmd
 
 
 def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
-    mv_command, jg_command = housekeeping_priors(log_dir, args, volumes=volumes)
+    mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes)
 
     bsub_commands = []
     for command, job_name in zip(commands, job_names):
@@ -123,7 +128,7 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
 
         bsub_commands.append(c)
 
-    all_commands = [c for c in [f'mkdir -p {log_dir}', mv_command, jg_command]
+    all_commands = [c for c in [f'mkdir -p {log_dir}', mv_command, jg_command, java_export_cmd]
                     if c is not None]
     all_commands += bsub_commands
 
@@ -144,7 +149,7 @@ def create_cromwell_workdir_command(workflow_root):
 
 
 def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=None):
-    mv_command, jg_command = housekeeping_priors(None, args, volumes=volumes)
+    mv_command, jg_command, java_export_cmd = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
 
@@ -157,7 +162,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=N
     start_docker_commands = []
     if workflow_root is not None:
         start_docker_commands += [create_cromwell_workdir_command(workflow_root)]
-    start_docker_commands += [c for c in [source_lsf_command, mh_command, mv_command, jg_command, start_server_command]
+    start_docker_commands += [c for c in [source_lsf_command, mh_command, mv_command, jg_command, java_export_cmd, start_server_command]
                               if c is not None]
     return start_docker_commands, submit_command
 
