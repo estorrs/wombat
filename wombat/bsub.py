@@ -130,10 +130,10 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
     return all_commands
 
 
-def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='/usr/bin/java',
-                       jar='/usr/local/cromwell/cromwell-47.jar'):
+def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='java',
+                       jar='/app/cromwell-78-38cd360.jar'):
     cmd = f'{java} -Dconfig.file={dconfig}'
-    cmd += ' -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore'
+#     cmd += ' -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore'
     cmd += f' -jar {jar} run -t cwl -i {inputs_fp} {cwl_fp}'
     return cmd
 
@@ -150,7 +150,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=N
 
     start_server_command = bsub_command(
             command='/bin/bash', group=args['group'], group_name=args['group_name'], mem=None,
-            docker='mwyczalkowski/cromwell-runner', queue=args['queue'], interactive=True)
+            docker='broadinstitute/cromwell:78-38cd360', queue=args['queue'], interactive=True)
 
     submit_command = submit_cwl_command(dconfig, cwl_fp, inputs_fp)
 
@@ -163,7 +163,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=N
 
 
 def start_cromwell_server_command(
-        dconfig, java='/usr/bin/java', jar='/usr/local/cromwell/cromwell-47.jar'):
+        dconfig, java='java', jar='/app/cromwell-78-38cd360.jar'):
     cmd = f'{java} -Dconfig.file={dconfig}'
     cmd += f' -jar {jar} server'
     return cmd
@@ -178,7 +178,7 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
 
     start_server_command = bsub_command(
             command='/bin/bash', group=args['group'], group_name=args['group_name'], mem=None,
-            docker='mwyczalkowski/cromwell-runner', queue=args['queue'], interactive=True)
+            docker='broadinstitute/cromwell:78-38cd360', queue=args['queue'], interactive=True)
 
     start_cromwell_command = start_cromwell_server_command(server_config)
 
@@ -186,7 +186,7 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
                        for fp, name, dconfig in zip(inputs_fps, run_names, dconfigs)]
     submit_commands = [bsub_command(
                            command=cmd, group=args['group'], group_name=args['group_name'],
-                           job_name=f'cromwell_launch_{name}', mem=None, docker='mwyczalkowski/cromwell-runner',
+                           job_name=f'cromwell_launch_{name}', mem=None, docker='broadinstitute/cromwell:78-38cd360',
                            queue=args['queue'], interactive=False,
                            log_fp=os.path.join(log_dir, f'{name}.log'))
                        for cmd, name in zip(submit_commands, run_names)]
