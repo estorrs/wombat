@@ -130,7 +130,7 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
     return all_commands
 
 
-def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='java',
+def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='/opt/java/openjdk/bin/java',
                        jar='/app/cromwell-78-38cd360.jar'):
     cmd = f'{java} -Dconfig.file={dconfig}'
 #     cmd += ' -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore'
@@ -163,7 +163,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=N
 
 
 def start_cromwell_server_command(
-        dconfig, java='java', jar='/app/cromwell-78-38cd360.jar'):
+        dconfig, java='/opt/java/openjdk/bin/java', jar='/app/cromwell-78-38cd360.jar'):
     cmd = f'{java} -Dconfig.file={dconfig}'
     cmd += f' -jar {jar} server'
     return cmd
