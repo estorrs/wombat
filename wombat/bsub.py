@@ -193,7 +193,7 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
     submit_commands = [submit_cwl_command(dconfig, cwl_fp, fp)
                        for fp, name, dconfig in zip(inputs_fps, run_names, dconfigs)]
     cmds = []
-    for for cmd, name in zip(submit_commands, run_names):
+    for cmd, name in zip(submit_commands, run_names):
         cmd = bsub_command(command=cmd, group=args['group'], group_name=args['group_name'],
                            job_name=f'cromwell_launch_{name}', mem=None, docker='estorrs/cromwell-runner:58',
                            queue=args['queue'], interactive=False,
