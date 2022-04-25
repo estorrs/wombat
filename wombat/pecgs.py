@@ -368,23 +368,8 @@ def from_run_list(
         dconfigs.append(template_fp)
 
         run_names.append(sample)
-    # leaving for now, to be removed
-    server_fp = os.path.join(input_dir, 'server-cromwell-config.compute1.dat')
 
-#     # copy and set port on server template
-#     f = open(bsub.DEFAULT_CROMWELL_SERVER_TEMPLATE)
-#     lines = [l for l in f]
-#     f.close()
-#     for i, line in enumerate(lines):
-#         if 'port' in line:
-#             lines[i] = line.replace('8000', str(cromwell_port))
-#     if proxy_run_dir is None:
-#         f = open(server_fp, 'w')
-#     else:
-#         proxy_server_fp = os.path.join(proxy_input_dir, 'server-cromwell-config.compute1.dat')
-#         f = open(proxy_server_fp)
-#     f.write('\n'.join(lines))
-#     f.close()
+    server_fp = os.path.join(input_dir, 'server-cromwell-config.compute1.dat')
 
     cwl_fp = os.path.join(
         tool_root, 'cwl', 'pecgs_workflows', f'{pipeline_name}.cwl')
@@ -406,10 +391,6 @@ def from_run_list(
     system_run_dir = run_dir if proxy_run_dir is None else proxy_run_dir
     start_commands, cromwell_server_command, run_commands = bsub.batch_cromwell_commands(
         dconfigs, server_fp, cwl_fp, inputs_fps, run_names, log_dir, workflow_dir, args, volumes)
-#     filepath = os.path.join(system_run_dir, '1.start_server.sh')
-#     bsub.write_command_file(start_commands, filepath)
-#     filepath = os.path.join(system_run_dir, '2.start_cromwell.sh')
-#     bsub.write_command_file([cromwell_server_command], filepath)
     filepath = os.path.join(system_run_dir, '1.run_jobs.sh')
     bsub.write_command_file(run_commands, filepath)
 

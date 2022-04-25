@@ -113,7 +113,7 @@ def housekeeping_priors(log_dir, args, volumes=None):
     return mv_command, jg_command, java_export_cmd
 
 
-def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
+def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=5):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes)
 
     bsub_commands = []
@@ -128,6 +128,10 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
 
         bsub_commands.append(c)
 
+        # prevent database/server overload errors
+        if sleep is not None:
+            bsub_commands.append(f'sleep {sleep}')
+
     all_commands = [c for c in [f'mkdir -p {log_dir}', mv_command, jg_command, java_export_cmd]
                     if c is not None]
     all_commands += bsub_commands
@@ -138,7 +142,6 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None):
 def submit_cwl_command(dconfig, cwl_fp, inputs_fp, java='/opt/java/openjdk/bin/java',
                        jar='/app/cromwell-78-38cd360.jar'):
     cmd = f'{java} -Dconfig.file={dconfig}'
-#     cmd += ' -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore'
     cmd += f' -jar {jar} run -t cwl -i {inputs_fp} {cwl_fp}'
     return cmd
 
@@ -176,7 +179,7 @@ def start_cromwell_server_command(
 
 def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
                             run_names, log_dir, run_dir,
-                            args, volumes):
+                            args, volumes, sleep=5):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
@@ -189,14 +192,17 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
 
     submit_commands = [submit_cwl_command(dconfig, cwl_fp, fp)
                        for fp, name, dconfig in zip(inputs_fps, run_names, dconfigs)]
-    submit_commands = [bsub_command(
-                           command=cmd, group=args['group'], group_name=args['group_name'],
+    cmds = []
+    for for cmd, name in zip(submit_commands, run_names):
+        cmd = bsub_command(command=cmd, group=args['group'], group_name=args['group_name'],
                            job_name=f'cromwell_launch_{name}', mem=None, docker='estorrs/cromwell-runner:58',
                            queue=args['queue'], interactive=False,
                            log_fp=os.path.join(log_dir, f'{name}.log'))
-                       for cmd, name in zip(submit_commands, run_names)]
+        cmds.append(cmd)
+        cmds.append(f'sleep {sleep}')
+
     submit_commands = [c for c in [source_lsf_command, mh_command, mv_command, java_export_cmd]
-                       if c is not None] + submit_commands
+                       if c is not None] + cmds
 
     submit_commands = [f'mkdir -p {log_dir}'] + [
         create_cromwell_workdir_command(os.path.join(run_dir, name)) for name in run_names] + submit_commands
