@@ -1,34 +1,34 @@
 bwts:
   class: Directory
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/bwts
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/Integrate_dependencies/bwts
 cpu: 40
 filter_database:
   class: Directory
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FilterDatabase
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/FilterDatabase
 fusion_annotator_dir:
   class: Directory
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/FusionAnnotator
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/FusionAnnotator
 gene_info:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34/gencode.gene.info.v34.tsv
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34/gencode.gene.info.v34.tsv
 genome_db:
   class: Directory
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/ericscript_dependencies/ericscript_db_homosapiens_ensembl84
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/ericscript_dependencies/ericscript_db_homosapiens_ensembl84
 genome_lib_dir:
   class: Directory
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/STAR-Fusion_dependencies/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/STAR-Fusion_dependencies/GRCh38_gencode_v37_CTAT_lib_Mar012021.plug-n-play/ctat_genome_lib_build_dir
 gtf:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34/gencode.v34.annotation.gtf
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34/gencode.v34.annotation.gtf
 integrate_annotations:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/annot.ensembl.GRCh38.txt
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/Integrate_dependencies/annot.ensembl.GRCh38.txt
 integrate_executable:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/INTEGRATE_0_2_6/INTEGRATE-build/bin/Integrate
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/INTEGRATE_0_2_6/INTEGRATE-build/bin/Integrate
 integrate_fasta:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/fusion/Integrate_dependencies/STAR/hg38.fa
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/fusion/Integrate_dependencies/STAR/hg38.fa
 star_index:
   class: Directory
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/bulk_expression/STAR_GRCh38_d1_vd1_d1_GENCODE_v34

@@ -1,4 +1,4 @@
 generate_evidence_bam: true
 reference:
   class: File
-  path: /scratch1/fs1/dinglab/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
