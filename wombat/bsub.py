@@ -113,7 +113,7 @@ def housekeeping_priors(log_dir, args, volumes=None):
     return mv_command, jg_command, java_export_cmd
 
 
-def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=60):
+def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=None):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes)
 
     bsub_commands = []
@@ -179,7 +179,7 @@ def start_cromwell_server_command(
 
 def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
                             run_names, log_dir, run_dir,
-                            args, volumes, sleep=60):
+                            args, volumes, sleep=None):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
@@ -199,7 +199,8 @@ def batch_cromwell_commands(dconfigs, server_config, cwl_fp, inputs_fps,
                            queue=args['queue'], interactive=False,
                            log_fp=os.path.join(log_dir, f'{name}.log'))
         cmds.append(cmd)
-        cmds.append(f'sleep {sleep}')
+        if sleep is not None:
+            cmds.append(f'sleep {sleep}')
 
     submit_commands = [c for c in [source_lsf_command, mh_command, mv_command, java_export_cmd]
                        if c is not None] + cmds
