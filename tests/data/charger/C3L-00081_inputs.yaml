@@ -1,0 +1,19 @@
+clinvar_alleles:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/clinvar_alleles.single.b38.tsv.gz
+hotspot3d_clusters:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/cptac_mc3_combined_noHypers_sorted.maf.3D_Proximity.pairwise.recurrence.l0.ad10.r10.clusters
+inheritance_gene_list:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/cancer_pred_genes_160genes_011321_curated_forCharGer.txt
+pathogenic_variants:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/emptyRemoved_20160428_pathogenic_variants_HGVSg_VEP_grch38lifOver.vcf
+pp2_gene_list:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/160cpgs.txt
+sample: C3L-00081
+vcf:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/charger/C3L-00081/HotspotFiltered.vcf.gz

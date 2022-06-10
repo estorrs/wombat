@@ -1,3 +1,0 @@
-vcf:
-  class: File
-  path: /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/pecgs_TN_wxs_bam/runs/C3L-00677_2a9edf1e-76df-4595-9125-fb9b9d919621/cromwell-workdir/cromwell-executions/pecgs_TN_wxs_bam.cwl/05158e98-46ce-4fbe-84d5-e583fd353767/call-run_tinjasmine/TinJasmine.cwl/0dbce154-310b-4c81-a820-be6e67ab7542/call-canonical_filter/execution/output/HotspotFiltered.vcf
