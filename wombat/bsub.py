@@ -151,7 +151,8 @@ def create_cromwell_workdir_command(workflow_root):
     return cmd
 
 
-def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=None, interactive=False):
+def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes,
+        workflow_root=None, interactive=False, log_fp=None):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(None, args, volumes=volumes)
     mh_command = map_host_command()
     source_lsf_command = 'source /opt/ibm/lsfsuite/lsf/conf/lsf.conf'
@@ -173,7 +174,7 @@ def cromwell_commands(dconfig, cwl_fp, inputs_fp, args, volumes, workflow_root=N
     
     cmd = bsub_command(
         command=submit_command, group=args['group'], group_name=args['group_name'], mem=None,
-        docker='estorrs/cromwell-runner:58', queue=args['queue'], interactive=False)
+        docker='estorrs/cromwell-runner:58', queue=args['queue'], interactive=False, log_fp=log_fp)
     return start_docker_commands[:-1] + [cmd]
 
 
