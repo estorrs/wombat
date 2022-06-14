@@ -20,6 +20,21 @@ centromere:
 centromere_bed:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/centromere/ucsc-centromere.GRCh38.bed
+charger_clinvar_alleles:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/clinvar_alleles.single.b38.tsv.gz
+charger_hotspot3d_clusters:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/cptac_mc3_combined_noHypers_sorted.maf.3D_Proximity.pairwise.recurrence.l0.ad10.r10.clusters
+charger_inheritance_gene_list:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/cancer_pred_genes_160genes_011321_curated_forCharGer.txt
+charger_pathogenic_variants:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/emptyRemoved_20160428_pathogenic_variants_HGVSg_VEP_grch38lifOver.vcf
+charger_pp2_gene_list:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/charger/CharGer_dependencyFiles/PanCan/160cpgs.txt
 classification_config:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/filter_config/classification_filter_config.ini
