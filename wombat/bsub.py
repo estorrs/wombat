@@ -44,7 +44,7 @@ def job_group_status_command(group_name, username='estorrs'):
     return f'bjgroup -s /{username}/{group_name}'
 
 
-def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8', queue='dinglab',
+def bsub_command(command='/bin/bash', mem=10, max_mem=None, hosts=1, docker='python:3.8', queue='dinglab',
                         group='compute-dinglab', group_name=None, job_name=None, interactive=False,
                         n_processes=1, username='estorrs', log_fp=None):
 
@@ -56,7 +56,7 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8',
 
     base = f'bsub'
     if mem is not None:
-        base += f' -R \'select[mem>{mem}GB]\' \'rusage[mem={mem}GB]\' -M {max_mem}GB'
+        base += f' -R \'select[mem>{mem}GB] rusage[mem={mem}GB] span[hosts={hosts}]\' -M {max_mem}GB'
 
     if n_processes is not None:
         base += f' -n {n_processes}'
