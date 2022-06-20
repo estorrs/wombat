@@ -56,7 +56,7 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=None, docker='python:3.8',
 
     base = f'bsub'
     if mem is not None:
-        base += f' -R \'rusage[mem={mem}GB]\' -M {max_mem}GB'
+        base += f' -R \'select[mem>{mem}GB]\' \'rusage[mem={mem}GB]\' -M {max_mem}GB'
 
     if n_processes is not None:
         base += f' -n {n_processes}'
@@ -113,7 +113,7 @@ def housekeeping_priors(log_dir, args, volumes=None):
     return mv_command, jg_command, java_export_cmd
 
 
-def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=None):
+def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=None, export_java=True):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes)
 
     bsub_commands = []
@@ -132,8 +132,10 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=
         if sleep is not None:
             bsub_commands.append(f'sleep {sleep}')
 
-    all_commands = [c for c in [f'mkdir -p {log_dir}', mv_command, jg_command, java_export_cmd]
+    all_commands = [c for c in [f'mkdir -p {log_dir}', mv_command, jg_command]
                     if c is not None]
+    if export_java:
+        all_commands.append(java_export_cmd)
     all_commands += bsub_commands
 
     return all_commands
