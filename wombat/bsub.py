@@ -129,7 +129,7 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=
         args['max_mem'] = args['mem'] + 1
 
     if volumes is None:
-        args['volumes'] = ['/storage1/fs1/dinglab', '/scratch1/fs1/dinglab', '/home/' + args['username']]
+        volumes = ['/storage1/fs1/dinglab', '/scratch1/fs1/dinglab', '/home/' + args['username']]
 
     mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes, exports=exports)
 
