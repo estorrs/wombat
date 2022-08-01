@@ -437,9 +437,16 @@ def generate_summarize_cmd(tool_root, pipeline_variant, run_list, run_dir):
     return cmd
 
 
+def generate_move_cmd(tool_root, pipeline_variant, run_list, run_dir):
+    fp = os.path.join(tool_root, 'src', 'compute1', 'generate_run_commands.py')
+    cmd = f'python {fp} move-run {pipeline_variant} {run_list} {run_dir} --target-dir {target_dir}'
+    return cmd
+
+
 def create_run_setup_scripts(
         tool_root, out_dir, pipeline_variant, run_list, run_dir,
-        volumes=None, sequencing_info=None, queue='general'):
+        volumes=None, sequencing_info=None, queue='general',
+        target_dir=None):
 
     launch_cmds = generate_launch_pecgs_env_cmds(
         run_dir, volumes=volumes)
@@ -450,6 +457,9 @@ def create_run_setup_scripts(
         tool_root, pipeline_variant, run_list, run_dir)
     summarize_cmd = generate_summarize_cmd(
         tool_root, pipeline_variant, run_list, run_dir)
+    if target_dir is not None:
+        move_cmd = generate_move_cmd(
+            tool_root, pipeline_variant, run_list, run_dir, target_dir)
 
     filepath = os.path.join(out_dir, 'pre.launch_pecgs_container.sh')
     bsub.write_command_file(launch_cmds, filepath)
@@ -459,5 +469,10 @@ def create_run_setup_scripts(
     bsub.write_command_file([tidy_cmd], filepath)
     filepath = os.path.join(out_dir, '3.summarize_run.sh')
     bsub.write_command_file([summarize_cmd], filepath)
+    if target_dir is not None:
+        filepath = os.path.join(out_dir, '4.move_run.sh')
+        bsub.write_command_file([move_cmd], filepath)
+    else:
+        move_cmd = None
 
-    return launch_cmds, make_cmd, tidy_cmd, summarize_cmd
+    return launch_cmds, make_cmd, tidy_cmd, summarize_cmd, move_cmd

@@ -10,6 +10,10 @@ DEFAULT_ARGS = {
     'max_mem': None,
     'docker': 'python:3.8',
     'queue': 'dinglab',
+    'gpu_model': 'TeslaV100_SXM2_32GB',
+    'gpu_mem': '30',
+    'gpu_num': 1,
+    'use_gpu': False,
     'group': 'compute-dinglab',
     'group_name': None,
     'n_concurrent': 10,
@@ -44,9 +48,10 @@ def job_group_status_command(group_name, username='estorrs'):
     return f'bjgroup -s /{username}/{group_name}'
 
 
-def bsub_command(command='/bin/bash', mem=10, max_mem=None, hosts=1, docker='python:3.8', queue='dinglab',
-                        group='compute-dinglab', group_name=None, job_name=None, interactive=False,
-                        n_processes=1, username='estorrs', log_fp=None):
+def bsub_command(command='/bin/bash', mem=10, max_mem=11, hosts=1, docker='python:3.8', queue='dinglab',
+                group='compute-dinglab', group_name=None, job_name=None, interactive=False,
+                n_processes=1, username='estorrs', log_fp=None,
+                gpu_model='TeslaV100_SXM2_32GB', gpu_mem=30, gpu_num=1, use_gpu=False):
 
     if max_mem is None:
         max_mem = mem
@@ -55,7 +60,9 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=None, hosts=1, docker='pyt
         queue = f'{queue}-interactive'
 
     base = f'bsub'
-    if mem is not None:
+    if use_gpu:
+        base += f' -R \'select[gpuhost,mem>{mem}GB] rusage[mem={mem}GB] span[hosts={hosts}]\' -M {max_mem}GB -gpu \'num={gpu_num}:gmodel={gpu_model}:gmem={gpu_mem}GB\''
+    else:
         base += f' -R \'select[mem>{mem}GB] rusage[mem={mem}GB] span[hosts={hosts}]\' -M {max_mem}GB'
 
     if n_processes is not None:
@@ -124,7 +131,9 @@ def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=
             command=command, mem=args['mem'], max_mem=args['max_mem'],
             docker=args['docker'], queue=args['queue'], group=args['group'],
             group_name=args['group_name'], job_name=job_name, interactive=args['interactive'],
-            n_processes=args['n_processes'], log_fp=log_fp, username=args['username'])
+            n_processes=args['n_processes'], log_fp=log_fp, username=args['username'],
+            gpu_model=args['gpu_model'], gpu_mem=args['gpu_mem'],
+            gpu_num=args['gpu_num'], use_gpu=args['use_gpu'])
 
         bsub_commands.append(c)
 
