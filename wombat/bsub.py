@@ -123,6 +123,9 @@ def housekeeping_priors(log_dir, args, volumes=None):
 def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=None, export_java=True):
     mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes)
 
+    if args['max_mem'] is None:
+        args['max_mem'] = args['mem'] + 1
+
     bsub_commands = []
     for command, job_name in zip(commands, job_names):
         log_fp = os.path.join(log_dir, f'{job_name}.txt')
