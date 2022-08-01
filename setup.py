@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md')) as f:
 setup(
     # $ pip install wombat
     name='wombat',
-    version='0.0.1',
+    version='0.0.2',
     description='A wrapper tool for creating CWL tools to run on washington university Compute1 via Cromwell',
     long_description=long_description,
     long_description_content_type='text/markdown',
