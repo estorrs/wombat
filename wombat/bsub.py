@@ -93,7 +93,7 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=11, hosts=1, docker='pytho
     return base
 
 
-def housekeeping_priors(log_dir, args, volumes=None):
+def housekeeping_priors(log_dir, args, volumes=None, exports=None):
     if volumes is None:
         volumes = []
 
@@ -114,22 +114,24 @@ def housekeeping_priors(log_dir, args, volumes=None):
 
 
     # make sure java in broad cromwell container is visible
-    java_export_cmd = f'export PATH="/opt/java/openjdk/bin:$PATH"'
+    # plus additional exports if specified
+    ls = ['/opt/java/openjdk/bin']
+    if exports is not None:
+        ls += exports
+    export_cmd = f'export PATH="' + ':'.join(ls) + ':$PATH"'
+
+    return mv_command, jg_command, export_cmd
 
 
-    return mv_command, jg_command, java_export_cmd
-
-
-def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=None, export_java=True):
+def batch_bsub_commands(commands, job_names, log_dir, args, volumes=None, sleep=None,
+                        export_java=True, exports=None):
     if args['max_mem'] is None:
         args['max_mem'] = args['mem'] + 1
 
     if volumes is None:
         args['volumes'] = ['/storage1/fs1/dinglab', '/scratch1/fs1/dinglab', '/home/' + args['username']]
 
-    mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes)
-
-
+    mv_command, jg_command, java_export_cmd = housekeeping_priors(log_dir, args, volumes=volumes, exports=exports)
 
     bsub_commands = []
     for command, job_name in zip(commands, job_names):
