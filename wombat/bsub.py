@@ -52,6 +52,8 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=11, hosts=1, docker='pytho
                 group='compute-dinglab', group_name=None, job_name=None, interactive=False,
                 n_processes=1, username='estorrs', log_fp=None,
                 gpu_model='TeslaV100_SXM2_32GB', gpu_mem=30, gpu_num=1, use_gpu=False):
+    if mem is None:
+        mem = 10
 
     if max_mem is None:
         max_mem = mem
