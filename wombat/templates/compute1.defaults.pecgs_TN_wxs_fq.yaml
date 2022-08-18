@@ -45,9 +45,6 @@ common_biallelic:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/cnv/db/snp_database/af-only-gnomad.hg38.common_biallelic.chr1-22XY.vcf
 cpu: 40
-gatk_filter_config:
-  class: File
-  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/gatk_filter_config/VLD_FilterVCF-GATK.config.ini
 known_sites:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/dnaseq_alignment/dbsnp/00-All.chr.vcf.gz
@@ -71,9 +68,6 @@ pindel_config:
 pindel_config_template:
   class: File
   path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/pindel_config_template/pindel_germline_filter_config.ini
-pindel_filter_config:
-  class: File
-  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/pindel_filter_config/VLD_FilterVCF-pindel.config.ini
 platform: ILLUMINA
 pool_of_normals:
   class: File
@@ -113,16 +107,16 @@ target_interval_list:
 tindaisy_chrlist:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/chrlist/GRCh38.d1.vd1.chrlist.txt
+tindaisy_vep_cache_gz:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/v99/vep-cache.99_GRCh38.tar.gz
+tindaisy_vep_cache_version: 99
 tinjasmine_chrlist:
   class: File
   path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/chrlist/GRCh38.d1.vd1.chrlist-reordered.txt
+tinjasmine_vep_cache_gz:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/20220525/vep-cache.100_GRCh38.tar.gz
 varscan_config:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/caller_config/varscan.WES.ini
-varscan_filter_config:
-  class: File
-  path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/varscan_filter_config/VLD_FilterVCF-varscan.config.ini
-vep_cache_gz:
-  class: File
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/v99/vep-cache.99_GRCh38.tar.gz
-vep_cache_version: 99
