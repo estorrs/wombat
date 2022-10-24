@@ -138,9 +138,9 @@ def populate_defaults_T_rna_fq(
     return d
 
 
-def generate_input_TN_wxs_fq(sample, m, sequencing_info=None, cpu=40):
+def generate_input_TN_wxs_fq(m, sequencing_info=None, cpu=40):
     d = populate_defaults_TN_wxs_fq(
-        sample,
+        m['case_id'],
         m['wxs_tumor_R1'], m['wxs_tumor_R2'],
         m['wxs_normal_R1'], m['wxs_normal_R2'],
         cpu=cpu, disease=m['disease'])
@@ -151,9 +151,9 @@ def generate_input_TN_wxs_fq(sample, m, sequencing_info=None, cpu=40):
     return d
 
 
-def generate_input_TN_wxs_bam(sample, m, cpu=40):
+def generate_input_TN_wxs_bam(m, cpu=40):
     d = populate_defaults_TN_wxs_bam(
-        sample,
+        m['case_id'],
         m['wxs_tumor_bam'], m['wxs_normal_bam'],
         cpu=cpu, disease=m['disease'])
 
@@ -167,9 +167,9 @@ def generate_input_TN_wgs_bam(m):
     return d
 
 
-def generate_input_T_rna_fq(sample, m, cpu=40):
+def generate_input_T_rna_fq(m, cpu=40):
     d = populate_defaults_T_rna_fq(
-        sample,
+        m['case_id'],
         m['rna-seq_tumor_R1'], m['rna-seq_tumor_R2'],
         cpu=cpu)
 
@@ -329,15 +329,13 @@ def from_run_list(
     for sample, d in run_list.items():
         if pipeline_name == 'pecgs_TN_wxs_fq':
             input = generate_input_TN_wxs_fq(
-                sample, d, sequencing_info_map.get(sample))
+                d, sequencing_info_map.get(sample))
         elif pipeline_name == 'pecgs_TN_wxs_bam':
-            input = generate_input_TN_wxs_bam(
-                sample, d)
+            input = generate_input_TN_wxs_bam(d)
         elif pipeline_name == 'pecgs_TN_wgs_bam':
             input = generate_input_TN_wgs_bam(d)
         elif pipeline_name == 'pecgs_T_rna_fq':
-            input = generate_input_T_rna_fq(
-                sample, d)
+            input = generate_input_T_rna_fq(d)
         else:
             raise RuntimeError(f'{pipeline_name} is not a valid pipeline variant')
 
