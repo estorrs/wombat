@@ -1,0 +1,6 @@
+annotate_trials_keyword: ''
+normal_sample_name: C3L-00677.N
+tumor_sample_name: C3L-00677.T
+variant_filepath:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/druggability/test.maf

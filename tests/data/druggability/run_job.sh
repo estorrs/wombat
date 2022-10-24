@@ -1,0 +1,8 @@
+#!/bin/bash
+mkdir -p /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/druggability/C3L-00677/cromwell-workdir/logs
+source /opt/ibm/lsfsuite/lsf/conf/lsf.conf
+export LSF_DOCKER_NETWORK=host
+export LSF_DOCKER_VOLUMES="/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/druggability:/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/druggability /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline:/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/druggability/C3L-00677:/scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/druggability/C3L-00677 /storage1/fs1/dinglab/Active:/storage1/fs1/dinglab/Active /scratch1/fs1/dinglab/estorrs:/scratch1/fs1/dinglab/estorrs /home/estorrs:/home/estorrs"
+bgadd -L 10 /estorrs/test_cromwell
+export PATH="/opt/java/openjdk/bin:$PATH"
+bsub -R 'select[mem>10GB] rusage[mem=10GB] span[hosts=1]' -M 11GB -n 1 -q general -G compute-dinglab -a 'docker(estorrs/cromwell-runner:58)' -g /estorrs/test_cromwell -J 495a3b19-bc5e-4977-951a-651a8a0181ff -oo /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/druggability/C3L-00677.log '/opt/java/openjdk/bin/java -Dconfig.file=/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/druggability/C3L-00677.cromwell-config-db.compute1.dat -jar /app/cromwell-78-38cd360.jar run -t cwl -i /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/druggability/C3L-00677_inputs.yaml /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/pecgs-druggability/cwl/druggability.cwl'
