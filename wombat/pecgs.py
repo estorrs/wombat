@@ -43,9 +43,10 @@ def get_sequencing_info(si):
 def populate_defaults_TN_wxs_fq(
         sample, tumor_wxs_fq_1, tumor_wxs_fq_2,
         normal_wxs_fq_1, normal_wxs_fq_2,
-        cpu=40):
+        cpu=40, disease=''):
     d = {
         'sample': sample,
+        'disease': disease,
         'cpu': cpu,
         'tumor_wxs_fq_1': {
             'class': 'File',
@@ -72,9 +73,10 @@ def populate_defaults_TN_wxs_fq(
 
 def populate_defaults_TN_wxs_bam(
         sample, tumor_wxs_bam, normal_wxs_bam,
-        cpu=40):
+        cpu=40, disease=''):
     d = {
         'sample': sample,
+        'disease': disease,
         'cpu': cpu,
         'tumor_wxs_bam': {
             'class': 'File',
@@ -141,7 +143,7 @@ def generate_input_TN_wxs_fq(sample, m, sequencing_info=None, cpu=40):
         sample,
         m['wxs_tumor_R1'], m['wxs_tumor_R2'],
         m['wxs_normal_R1'], m['wxs_normal_R2'],
-        cpu=cpu)
+        cpu=cpu, disease=m['disease'])
 
     if sequencing_info is not None:
         d.update(get_sequencing_info(sequencing_info))
@@ -153,7 +155,7 @@ def generate_input_TN_wxs_bam(sample, m, cpu=40):
     d = populate_defaults_TN_wxs_bam(
         sample,
         m['wxs_tumor_bam'], m['wxs_normal_bam'],
-        cpu=cpu)
+        cpu=cpu, disease=m['disease'])
 
     return d
 
