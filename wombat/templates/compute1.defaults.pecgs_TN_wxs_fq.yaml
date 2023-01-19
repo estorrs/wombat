@@ -109,14 +109,14 @@ tindaisy_chrlist:
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/chrlist/GRCh38.d1.vd1.chrlist.txt
 tindaisy_vep_cache_gz:
   class: File
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/v99/vep-cache.99_GRCh38.tar.gz
-tindaisy_vep_cache_version: 99
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/20220525/vep-cache.102_GRCh38.tar.gz
+tindaisy_vep_cache_version: 102
 tinjasmine_chrlist:
   class: File
   path: /storage1/fs1/dinglab/Active/Resources/Pipelines/TinJasmine/TinJasmine_etc/chrlist/GRCh38.d1.vd1.chrlist-reordered.txt
 tinjasmine_vep_cache_gz:
   class: File
-  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/20220525/vep-cache.100_GRCh38.tar.gz
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/20220525/vep-cache.102_GRCh38.tar.gz
 varscan_config:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/caller_config/varscan.WES.ini
