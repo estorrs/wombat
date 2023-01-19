@@ -372,6 +372,7 @@ def from_run_list(
     sequencing_info_map = generate_sequencing_info_map(sequencing_info) if sequencing_info is not None else None
     inputs_fps, dconfigs, run_names = [], [], []
     for sample, d in run_list.items():
+        print(d)
         if pipeline_name == 'pecgs_TN_wxs_fq':
             input = generate_input_TN_wxs_fq(
                 d, sequencing_info_map.get(sample))
@@ -383,6 +384,7 @@ def from_run_list(
             input = generate_input_T_rna_fq(d)
         else:
             raise RuntimeError(f'{pipeline_name} is not a valid pipeline variant')
+        print(d)
 
         if d['project'].upper() in DISEASE_TO_RESCUE_BED:
             if d['disease'].upper() in DISEASE_TO_RESCUE_BED[d['project'].upper()]:
