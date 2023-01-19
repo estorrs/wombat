@@ -2,4 +2,6 @@
 ## recursive-include pollock/wrappers
 ## recursive-include tests/data
 recursive-include wombat/templates
+recursive-include wombat/beds
 include wombat/templates/*
+include wombat/beds/*

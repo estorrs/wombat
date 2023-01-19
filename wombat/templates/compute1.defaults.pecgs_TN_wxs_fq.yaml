@@ -107,6 +107,9 @@ target_interval_list:
 tindaisy_chrlist:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/TinDaisy/params/chrlist/GRCh38.d1.vd1.chrlist.txt
+tindaisy_rescue_bed:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/bed/tindaisy_vaf_rescue/299_drivers.bed
 tindaisy_vep_cache_gz:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/vep/20220525/vep-cache.102_GRCh38.tar.gz

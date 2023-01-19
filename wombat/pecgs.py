@@ -1,3 +1,4 @@
+import logging
 import datetime
 import os
 import re
@@ -23,6 +24,50 @@ COMPUTE1_TN_WGS_BAM_DEFAULTS = os.path.join(
 
 COMPUTE1_T_RNA_FQ_DEFAULTS = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_T_rna_fq.yaml')
+
+DISEASE_TO_RESCUE_BED = {
+    'PECGS': {
+        'CHOL': os.path.join(Path(__file__).parent.absolute(), 'beds', 'pecgs_chol.bed'),
+        'CRC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'pecgs_crc.bed'),
+        'MM': os.path.join(Path(__file__).parent.absolute(), 'beds', 'pecgs_mm.bed'),
+    },
+    'TCGA': {
+        'ACC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_ACC.bed'),
+        'BLCA': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_BLCA.bed'),
+        'BRCA': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_BRCA.bed'),
+        'CESC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_CESC.bed'),
+        'CHOL': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_CHOL.bed'),
+        'COADREAD': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_COADREAD.bed'),
+        'DLBC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_DLBC.bed'),
+        'ESCA': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_ESCA.bed'),
+        'GBM': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_GBM.bed'),
+        'HNSC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_HNSC.bed'),
+        'KICH': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_KICH.bed'),
+        'KIRC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_KIRC.bed'),
+        'KIRP': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_KIRP.bed'),
+        'LAML': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_LAML.bed'),
+        'LGG': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_LGG.bed'),
+        'LIHC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_LIHC.bed'),
+        'LUAD': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_LUAD.bed'),
+        'LSCC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_LSCC.bed'),
+        'LUSC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_LUSC.bed'),
+        'MESO': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_MESO.bed'),
+        'OV': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_OV.bed'),
+        'PAAD': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_PAAD.bed'),
+        'PANCAN': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_PANCAN.bed'),
+        'PCPG': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_PCPG.bed'),
+        'PRAD': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_PRAD.bed'),
+        'SARC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_SARC.bed'),
+        'SKCM': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_SKCM.bed'),
+        'STAD': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_STAD.bed'),
+        'TGCT': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_TGCT.bed'),
+        'THCA': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_THCA.bed'),
+        'THYM': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_THYM.bed'),
+        'UCEC': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_UCEC.bed'),
+        'UCS': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_UCSC.bed'),
+        'UVM': os.path.join(Path(__file__).parent.absolute(), 'beds', 'driver_paper_UVM.bed'),
+    }
+}
 
 
 def get_sequencing_info(si):
@@ -338,6 +383,12 @@ def from_run_list(
             input = generate_input_T_rna_fq(d)
         else:
             raise RuntimeError(f'{pipeline_name} is not a valid pipeline variant')
+
+        if d['project'].upper() in DISEASE_TO_RESCUE_BED:
+            if d['disease'].upper() in DISEASE_TO_RESCUE_BED[d['project'].upper()]:
+                input['tindaisy_rescue_bed'] = DISEASE_TO_RESCUE_BED[d['project'].upper()][d['disease'].upper()]
+            else:
+                logging.info(d['project'] + ' has no bed file for ' + d['disease'] + '. Defaulting to pancan vaf rescue bed.')
 
         if input_kwargs is not None:
             input.update(input_kwargs)
