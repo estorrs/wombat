@@ -368,8 +368,12 @@ def from_run_list(
         Path(log_dir).mkdir(parents=True, exist_ok=True)
         Path(input_dir).mkdir(parents=True, exist_ok=True)
         Path(workflow_dir).mkdir(parents=True, exist_ok=True)
+    print(sequencing_info)
 
     sequencing_info_map = generate_sequencing_info_map(sequencing_info) if sequencing_info is not None else None
+    print(run_list)
+    print(sequencing_info_map)
+
     inputs_fps, dconfigs, run_names = [], [], []
     for sample, d in run_list.items():
         if pipeline_name == 'pecgs_TN_wxs_fq':
