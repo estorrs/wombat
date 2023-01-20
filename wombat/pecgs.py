@@ -389,10 +389,10 @@ def from_run_list(
                 rescue_bed = DISEASE_TO_RESCUE_BED[d['project'].upper()][d['disease'].upper()]
                 post = rescue_bed.split('/')[-1]
                 if proxy_run_dir is None:
-                    new_fp = os.path.join(proxy_run_dir, 'inputs', post)
+                    new_fp = os.path.join(input_dir, post)
                     shutil.copy(rescue_bed, new_fp)
                 else:
-                    new_fp = os.path.join(input_dir, post)
+                    new_fp = os.path.join(proxy_run_dir, 'inputs', post)
                     shutil.copy(rescue_bed, new_fp)
                 input['tindaisy_rescue_bed'] = new_fp
             else:
