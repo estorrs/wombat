@@ -94,7 +94,6 @@ def bsub_command(command='/bin/bash', mem=10, max_mem=11, hosts=1, docker='pytho
 
     return base
 
-
 def housekeeping_priors(log_dir, args, volumes=None, exports=None):
     if volumes is None:
         volumes = []

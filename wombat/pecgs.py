@@ -12,7 +12,6 @@ import pandas as pd
 import wombat.bsub as bsub
 import wombat.utils as utils
 
-
 COMPUTE1_TN_WXS_FQ_DEFAULTS = os.path.join(
     Path(__file__).parent.absolute(), 'templates', 'compute1.defaults.pecgs_TN_wxs_fq.yaml')
 
@@ -387,7 +386,15 @@ def from_run_list(
 
         if d['project'].upper() in DISEASE_TO_RESCUE_BED:
             if d['disease'].upper() in DISEASE_TO_RESCUE_BED[d['project'].upper()]:
-                input['tindaisy_rescue_bed'] = DISEASE_TO_RESCUE_BED[d['project'].upper()][d['disease'].upper()]
+                rescue_bed = DISEASE_TO_RESCUE_BED[d['project'].upper()][d['disease'].upper()]
+                post = rescue_bed.split('/')[-1]
+                if proxy_run_dir is None:
+                    new_fp = os.path.join(proxy_run_dir, 'inputs', post)
+                    shutil.copy(rescue_bed, new_fp)
+                else:
+                    new_fp = os.path.join(input_dir, post)
+                    shutil.copy(rescue_bed, new_fp)
+                input['tindaisy_rescue_bed'] = new_fp
             else:
                 logging.info(d['project'] + ' has no bed file for ' + d['disease'] + '. Defaulting to pancan vaf rescue bed.')
 
