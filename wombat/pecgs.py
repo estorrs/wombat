@@ -432,8 +432,9 @@ def from_run_list(
 
     cwl_fp = os.path.join(
         tool_root, 'cwl', 'pecgs_workflows', f'{pipeline_name}.cwl')
-    volumes = [run_dir, tool_root, '/storage1/fs1/dinglab',
-               '/storage1/fs1/m.wyczalkowski/Active', '/scratch1/fs1/dinglab']
+    volumes = [re.sub(r'^(.*)/$', r'\1', run_dir), re.sub(r'^(.*)/$', r'\1', tool_root),
+               '/storage1/fs1/dinglab', '/storage1/fs1/m.wyczalkowski/Active',
+               '/scratch1/fs1/dinglab']
     if additional_volumes is not None:
         volumes += additional_volumes
 
