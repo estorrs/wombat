@@ -1,2 +1,8 @@
 #!/bin/bash
-/usr/bin/java -Dconfig.file=/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/cnv/C3L-00677.cromwell-config-db.compute1.dat -Djavax.net.ssl.trustStorePassword=changeit -Djavax.net.ssl.trustStore=/gscmnt/gc2560/core/genome/cromwell/cromwell.truststore -jar /usr/local/cromwell/cromwell-47.jar run -t cwl -i /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/cnv/C3L-00677_inputs.yaml /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/pecgs-cnv/cwl/cnv_workflow.cwl
+mkdir -p /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/cnv/C3L-00677/cromwell-workdir/logs
+source /opt/ibm/lsfsuite/lsf/conf/lsf.conf
+export LSF_DOCKER_NETWORK=host
+export LSF_DOCKER_VOLUMES="/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/cnv:/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/cnv /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline:/storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/cnv/C3L-00677:/scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/cnv/C3L-00677 /storage1/fs1/dinglab:/storage1/fs1/dinglab /storage1/fs1/m.wyczalkowski:/storage1/fs1/m.wyczalkowski /scratch1/fs1/dinglab:/scratch1/fs1/dinglab"
+bgadd -L 10 /estorrs/test_cromwell
+export PATH="/opt/java/openjdk/bin:$PATH"
+bsub -R 'select[mem>10GB] rusage[mem=10GB] span[hosts=1]' -M 11GB -n 1 -q dinglab -G compute-dinglab -a 'docker(estorrs/cromwell-runner:58)' -g /estorrs/test_cromwell -J 82ea959b-8812-45ca-bfc3-fb0018d7076f '/opt/java/openjdk/bin/java -Dconfig.file=/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/cnv/C3L-00677.cromwell-config-db.compute1.dat -jar /app/cromwell-78-38cd360.jar run -t cwl -i /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/cnv/C3L-00677_inputs.yaml /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs-pipeline/submodules/pecgs-cnv/cwl/cnv_workflow.cwl'
