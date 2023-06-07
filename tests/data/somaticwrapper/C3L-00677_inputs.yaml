@@ -2,8 +2,9 @@ normal_bam:
   class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/test_samples/C3L-00677/wxs/5cee818c-61e8-4441-bd9a-5c984cde9c6b_gdc_realn.bam
 reference:
-  class: Directory
+  class: File
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/pecgs_resources/cnv/references/GRCh38.d1.vd1/GRCh38.d1.vd1.fa
+rescue_genes: /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/wombat/beds/299_drivers.bed
 sample: C3L-00677
 tumor_bam:
   class: File
