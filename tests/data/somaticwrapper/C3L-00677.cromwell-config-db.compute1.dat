@@ -43,7 +43,7 @@ backend {
         /bin/bash ${script}
         """
         submit-docker = """
-        LSF_DOCKER_VOLUMES=${cwd}:${docker_cwd} \
+        LSF_DOCKER_VOLUMES="${cwd}:${docker_cwd} /scratch1/fs1/dinglab:/scratch1/fs1/dinglab /storage1/fs1/dinglab:/storage1/fs1/dinglab" \
         bsub \
         -J ${job_name} \
         -cwd ${cwd} \
