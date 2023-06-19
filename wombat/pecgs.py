@@ -394,7 +394,7 @@ def from_run_list(
                 else:
                     new_fp = os.path.join(proxy_run_dir, 'inputs', post)
                     shutil.copy(rescue_bed, new_fp)
-                input['tindaisy_rescue_bed'] = new_fp
+                input['tindaisy_rescue_bed']['path'] = new_fp
             else:
                 logging.info(d['project'] + ' has no bed file for ' + d['disease'] + '. Defaulting to pancan vaf rescue bed.')
 
