@@ -466,7 +466,7 @@ def generate_launch_pecgs_env_cmds(run_dir, volumes=None):
     vol_str = ' '.join([f'{v}:{v}' for v in lsf_volumes])
     lsf_cmd = f'export LSF_DOCKER_VOLUMES="{vol_str}"'
     path_cmd = 'export PATH="/miniconda/envs/pecgs/bin:$PATH"'
-    bsub_cmd = "bsub -q dinglab-interactive -G compute-dinglab -Is -a 'docker(estorrs/pecgs-pipeline:0.0.1)' '/bin/bash'"
+    bsub_cmd = "bsub -q dinglab-interactive -G compute-dinglab -Is -a 'docker(estorrs/pecgs-pipeline:0.0.2)' '/bin/bash'"
 
     return [mkdir_cmd, lsf_cmd, path_cmd, bsub_cmd]
 
