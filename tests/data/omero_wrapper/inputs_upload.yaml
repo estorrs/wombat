@@ -1,0 +1,7 @@
+dataset: HT308B1-S1H5A4_U1_20230526
+filepath:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/test_images/HT308B1-S1H5A4_right_05262023.ome.tiff
+group: HTAN
+image_name: HT308B1-S1H5A4_U1_20230526
+project: Multiplex_Imaging
