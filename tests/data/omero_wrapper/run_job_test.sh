@@ -1,0 +1,8 @@
+#!/bin/bash
+mkdir -p /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/omero_wrapper/test/cromwell-workdir/logs
+source /opt/ibm/lsfsuite/lsf/conf/lsf.conf
+export LSF_DOCKER_NETWORK=host
+export LSF_DOCKER_VOLUMES="/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/omero_wrapper:/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/omero_wrapper /storage1/fs1/dinglab/Active/Projects/estorrs/omero-wrapper:/storage1/fs1/dinglab/Active/Projects/estorrs/omero-wrapper /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/omero_wrapper/test:/scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/omero_wrapper/test /storage1/fs1/dinglab:/storage1/fs1/dinglab /scratch1/fs1/dinglab:/scratch1/fs1/dinglab"
+bgadd -L 10 /estorrs/test_cromwell
+export PATH="/opt/java/openjdk/bin:$PATH"
+bsub -R 'select[mem>10GB] rusage[mem=10GB] span[hosts=1]' -M 11GB -n 1 -q dinglab -G compute-dinglab -a 'docker(estorrs/cromwell-runner:58)' -g /estorrs/test_cromwell -J dda62434-38d0-4f2d-a88c-63362d6da44a -oo log.txt '/opt/java/openjdk/bin/java -Dconfig.file=/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/omero_wrapper/test.cromwell-config-db.compute1.dat -jar /app/cromwell-78-38cd360.jar run -t cwl -i /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/omero_wrapper/inputs_test.yaml /storage1/fs1/dinglab/Active/Projects/estorrs/omero-wrapper/cwl/omero_wrapper_test.cwl'
