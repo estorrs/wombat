@@ -1,0 +1,8 @@
+#!/bin/bash
+mkdir -p /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/ome_generation/cromwell-workdir/logs
+source /opt/ibm/lsfsuite/lsf/conf/lsf.conf
+export LSF_DOCKER_NETWORK=host
+export LSF_DOCKER_VOLUMES="/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/ome_generation:/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/ome_generation /storage1/fs1/dinglab/Active/Projects/estorrs/multiplex-imaging-pipeline:/storage1/fs1/dinglab/Active/Projects/estorrs/multiplex-imaging-pipeline /scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/ome_generation:/scratch1/fs1/dinglab/estorrs/cromwell-data/pecgs/testing/ome_generation /storage1/fs1/dinglab:/storage1/fs1/dinglab /scratch1/fs1/dinglab:/scratch1/fs1/dinglab"
+bgadd -L 10 /estorrs/test_cromwell
+export PATH="/opt/java/openjdk/bin:$PATH"
+bsub -R 'select[mem>10GB] rusage[mem=10GB] span[hosts=1]' -M 11GB -n 1 -q dinglab -G compute-dinglab -a 'docker(estorrs/cromwell-runner:58)' -g /estorrs/test_cromwell -J 94af10e6-3e35-43aa-b724-33064e967c3f -oo log.txt '/opt/java/openjdk/bin/java -Dconfig.file=/storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/ome_generation/ome_generation.cromwell-config-db.compute1.dat -jar /app/cromwell-78-38cd360.jar run -t cwl -i /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/ome_generation/inputs_ome_generation.yaml /storage1/fs1/dinglab/Active/Projects/estorrs/multiplex-imaging-pipeline/cwl/ome_generation.cwl'

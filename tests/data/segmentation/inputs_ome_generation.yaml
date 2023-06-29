@@ -1,0 +1,5 @@
+bbox: null
+input_tif:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Primary/HTAN.Imaging/codex/stitched/brca/021323_BRCA_HT365B1_S1H1/level_2/HT365B1_S1H1_Scan3.qptiff
+platform: phenocycler
