@@ -1,0 +1,6 @@
+group: HTAN
+ome_tiff:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/wombat/tests/data/image_preprocessing_workflow/run/cromwell-workdir/cromwell-executions/image_preprocessing_workflow.cwl/74438199-29de-4d71-b584-e7b221c5e7e1/call-make_ome/execution/output.ome.tiff
+project: Multiplex_Imaging
+specimen_id: HT206B1-S1H5_U1_07012023_test
