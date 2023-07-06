@@ -5,4 +5,4 @@ input_tif:
   path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/test_images/HT308B1-S1H5A4_right_05262023.ome.tiff
 platform: phenocycler
 project: Multiplex_Imaging
-sample: HT308B1-S1H5A4_U1_test_20230526
+specimen_id: HT308B1-S1H5A4_U1_test_20230526
