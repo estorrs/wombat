@@ -1,0 +1,8 @@
+bbox: 5000,7000,5000,7000
+group: HTAN
+input_tif:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/test_images/HT308B1-S1H5A4_right_05262023.ome.tiff
+platform: phenocycler
+project: Multiplex_Imaging
+sample: HT308B1-S1H5A4_U1_test_20230526
