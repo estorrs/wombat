@@ -1,0 +1,6 @@
+input_tif:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/test_images/test/test.ome.tiff
+spatial_features:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/test_images/test/output_spatial_features.h5ad
