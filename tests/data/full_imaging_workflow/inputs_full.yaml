@@ -1,0 +1,11 @@
+bbox: 0,10000,3000,13000
+group: HTAN
+input_tif:
+  class: File
+  path: /storage1/fs1/dinglab/Active/Projects/estorrs/sandbox/test_images/HT206B1-S1H5_TOP_HT297B1-S1H1_HT339B2-H2_HT565B1-S1H2_BTTM_Scan1.qptiff
+mask_markers: Pan-Cytokeratin,E-cadherin
+membrane_channels: Pan-Cytokeratin,E-cadherin,CD45,CD8,CD3e,CD4,Vimentin,SMA,CD31
+nuclei_channels: DAPI
+platform: phenocycler
+project: Multiplex_Imaging
+specimen_id: HT206B1-S1H5_U1_07012023_test
