@@ -66,7 +66,7 @@ def get_step(filepath, workflow_name):
 def get_pipeline_info(repo_root=None):
     old_cwd = os.getcwd()
     os.chdir(repo_root)
-    # check to see if pecgs pipeline is in path
+
     commit_id = subprocess.check_output(('git', 'rev-parse', 'HEAD')).decode('utf-8').strip()
     version = subprocess.check_output(('git', 'describe', '--abbrev=0', '--tags')).decode('utf-8').strip()
 
