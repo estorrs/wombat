@@ -35,7 +35,8 @@ def populate_defaults_full_imaging(
         'group': group,
         'project': project,
     }
-
+    logging.info(f'{d}')
+    logging.info(COMPUTE1_FULL_IMAGING_DEFAULTS)
     d.update(yaml.safe_load(open(COMPUTE1_FULL_IMAGING_DEFAULTS)))
 
     return d
