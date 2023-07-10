@@ -264,9 +264,8 @@ def generate_launch_pecgs_env_cmds(run_dir, volumes=None):
 
 
 def generate_create_run_cmd(
-        tool_root, pipeline_variant, run_list, run_dir,
-        sequencing_info=None, queue='general'):
-    fp = os.path.join(tool_root, 'compute1', 'generate_run_commands.py')
+        tool_root, pipeline_variant, run_list, run_dir, queue='general'):
+    fp = os.path.join(tool_root, 'multiplex_imaging_pipeline', 'compute1', 'generate_run_commands.py')
     pieces = [
         f'python {fp} make-run', f'--queue {queue}',
         f'{pipeline_variant} {run_list} {run_dir}'
@@ -276,19 +275,19 @@ def generate_create_run_cmd(
 
 
 def generate_tidy_cmd(tool_root, pipeline_variant, run_list, run_dir):
-    fp = os.path.join(tool_root, 'compute1', 'generate_run_commands.py')
+    fp = os.path.join(tool_root, 'multiplex_imaging_pipeline', 'compute1', 'generate_run_commands.py')
     cmd = f'python {fp} tidy-run {pipeline_variant} {run_list} {run_dir}'
     return cmd
 
 
 def generate_summarize_cmd(tool_root, pipeline_variant, run_list, run_dir):
-    fp = os.path.join(tool_root, 'compute1', 'generate_run_commands.py')
+    fp = os.path.join(tool_root, 'multiplex_imaging_pipeline', 'compute1', 'generate_run_commands.py')
     cmd = f'python {fp} summarize-run {pipeline_variant} {run_list} {run_dir}'
     return cmd
 
 
 def generate_move_cmd(tool_root, pipeline_variant, run_list, run_dir, target_dir):
-    fp = os.path.join(tool_root, 'compute1', 'generate_run_commands.py')
+    fp = os.path.join(tool_root, 'multiplex_imaging_pipeline', 'compute1', 'generate_run_commands.py')
     cmd = f'python {fp} move-run {pipeline_variant} {run_list} {run_dir} --target-dir {target_dir}'
     return cmd
 
@@ -302,7 +301,7 @@ def create_run_setup_scripts(
         run_dir, volumes=volumes)
     make_cmd = generate_create_run_cmd(
         tool_root, pipeline_variant, run_list, run_dir,
-        sequencing_info=sequencing_info, queue=queue)
+        queue=queue)
     tidy_cmd = generate_tidy_cmd(
         tool_root, pipeline_variant, run_list, run_dir)
     summarize_cmd = generate_summarize_cmd(
