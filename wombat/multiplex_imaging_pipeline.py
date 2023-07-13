@@ -231,7 +231,7 @@ def from_run_list(
         volumes += additional_volumes
 
     args = bsub.DEFAULT_ARGS
-    args['group_name'] = '/estorrs/cromwell'
+    args['group_name'] = 'cromwell'
     args['n_concurrent'] = n_concurrent
     # if job_group is not None:
     #     args['group_name'] = job_group
