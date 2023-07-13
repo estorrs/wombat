@@ -169,7 +169,7 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
 
 def from_run_list(
         run_list, run_dir, tool_root, pipeline_name,
-        job_group=None, n_concurrent=None, proxy_run_dir=None,
+        job_group=None, n_concurrent=10, proxy_run_dir=None,
         input_kwargs=None, additional_volumes=None,
         queue='general'):
     log_dir = os.path.join(run_dir, 'logs')
@@ -231,14 +231,16 @@ def from_run_list(
         volumes += additional_volumes
 
     args = bsub.DEFAULT_ARGS
-    if job_group is not None:
-        args['group_name'] = job_group
-    else:
-        args['group_name'] = None
-    if n_concurrent is not None:
-        args['n_concurrent'] = n_concurrent
-    else:
-        args['n_concurrent'] = 25
+    args['group_name'] = '/estorrs/cromwell'
+    args['n_concurrent'] = n_concurrent
+    # if job_group is not None:
+    #     args['group_name'] = job_group
+    # else:
+    #     args['group_name'] = None
+    # if n_concurrent is not None:
+    #     args['n_concurrent'] = n_concurrent
+    # else:
+    #     args['n_concurrent'] = 25
 
     system_run_dir = run_dir if proxy_run_dir is None else proxy_run_dir
     start_commands, cromwell_server_command, run_commands = bsub.batch_cromwell_commands(
@@ -264,10 +266,10 @@ def generate_launch_pecgs_env_cmds(run_dir, volumes=None):
 
 
 def generate_create_run_cmd(
-        tool_root, pipeline_variant, run_list, run_dir, queue='general'):
+        tool_root, pipeline_variant, run_list, run_dir, queue='general', n_concurrent=10):
     fp = os.path.join(tool_root, 'multiplex_imaging_pipeline', 'compute1', 'generate_run_commands.py')
     pieces = [
-        f'python {fp} make-run', f'--queue {queue}',
+        f'python {fp} make-run', f'--queue {queue}', f'--n-concurrent {n_concurrent}',
         f'{pipeline_variant} {run_list} {run_dir}'
     ]
     cmd = ' '.join(pieces)
@@ -295,13 +297,13 @@ def generate_move_cmd(tool_root, pipeline_variant, run_list, run_dir, target_dir
 def create_run_setup_scripts(
         tool_root, out_dir, pipeline_variant, run_list, run_dir,
         volumes=None, sequencing_info=None, queue='general',
-        target_dir=None):
+        target_dir=None, n_concurrent=10):
 
     launch_cmds = generate_launch_pecgs_env_cmds(
         run_dir, volumes=volumes)
     make_cmd = generate_create_run_cmd(
         tool_root, pipeline_variant, run_list, run_dir,
-        queue=queue)
+        queue=queue, n_concurrent=n_concurrent)
     tidy_cmd = generate_tidy_cmd(
         tool_root, pipeline_variant, run_list, run_dir)
     summarize_cmd = generate_summarize_cmd(
