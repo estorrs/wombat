@@ -19,7 +19,6 @@ def populate_defaults_full_imaging(
         specimen_id, input_tif, nuclei_channels='DAPI',
         membrane_channels='Pan-Cytokeratin,E-cadherin,CD45,CD8,CD3e,CD4,Vimentin,SMA,CD31',
         mask_markers='Pan-Cytokeratin,E-cadherin',
-        group='HTAN', project='Multiplex_Imaging',
         bbox=None, platform='phenocycler'):
     d = {
         'specimen_id': specimen_id,
@@ -32,8 +31,6 @@ def populate_defaults_full_imaging(
         'nuclei_channels': nuclei_channels,
         'membrane_channels': membrane_channels,
         'mask_markers': mask_markers,
-        'group': group,
-        'project': project,
     }
 
     # no defaults for now
@@ -219,7 +216,7 @@ def from_run_list(
             bsub.save_compute1_cromwell_template(
                 workflow_root, proxy_template_fp, queue=queue)
 
-        dconfigs.append(template_fp)
+        dconfigs.append(template_fp) 
 
         run_names.append(sample)
 
