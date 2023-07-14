@@ -121,7 +121,7 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
         run_id = log_fp.split('/')[-1].replace('.log', '')
 
         m = utils.parse_output_from_log(log_fp, workflow_name)
-
+        print(m)
         data = []
         sample_id = run_list.loc[run_id, 'specimen_id']
         run_date = str(datetime.datetime.today()).split(' ')[0]
