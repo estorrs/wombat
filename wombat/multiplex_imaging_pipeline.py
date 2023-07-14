@@ -111,49 +111,49 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
     for log_fp in log_fps:
         # check to see if run is finished and completed sucessfully
         f = open(log_fp)
-        # completed = False
-        # for line in f:
-        #     if 'Successfully completed.' in line:
-        #         completed = True
-        #         break
+        completed = False
+        for line in f:
+            if 'Successfully completed.' in line:
+                completed = True
+                break
 
-        # if completed:
-        run_id = log_fp.split('/')[-1].replace('.log', '')
+        if completed:
+            run_id = log_fp.split('/')[-1].replace('.log', '')
 
-        m = utils.parse_output_from_log(log_fp, workflow_name)
-        print(run_id, m)
-        data = []
-        sample_id = run_list.loc[run_id, 'specimen_id']
-        run_date = str(datetime.datetime.today()).split(' ')[0]
-        for k, v in m.items():
-            if isinstance(v, list):
-                for item_index, item in enumerate(v):
+            m = utils.parse_output_from_log(log_fp, workflow_name)
+
+            data = []
+            sample_id = run_list.loc[run_id, 'specimen_id']
+            run_date = str(datetime.datetime.today()).split(' ')[0]
+            for k, v in m.items():
+                if isinstance(v, list):
+                    for item_index, item in enumerate(v):
+                        result_uuid = str(uuid.uuid4())
+                        data.append([
+                            sample_id, utils.get_step(item, workflow_name),
+                            f'{k}.{item_index}', item, os.path.getsize(item),
+                            result_uuid, run_id, run_date])
+                else:
                     result_uuid = str(uuid.uuid4())
                     data.append([
-                        sample_id, utils.get_step(item, workflow_name),
-                        f'{k}.{item_index}', item, os.path.getsize(item),
+                        sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
                         result_uuid, run_id, run_date])
+            analysis_summary = pd.DataFrame(
+                data,
+                columns=['specimen_id', 'workflow_step', 'result_name', 'data_path',
+                               'filesize', 'result_uuid', 'run_id', 'run_date'])
+            if combined_analysis_summary is None:
+                combined_analysis_summary = analysis_summary
             else:
-                result_uuid = str(uuid.uuid4())
-                data.append([
-                    sample_id, utils.get_step(v, workflow_name), k, v, os.path.getsize(v),
-                    result_uuid, run_id, run_date])
-        analysis_summary = pd.DataFrame(
-            data,
-            columns=['specimen_id', 'workflow_step', 'result_name', 'data_path',
-                            'filesize', 'result_uuid', 'run_id', 'run_date'])
-        if combined_analysis_summary is None:
-            combined_analysis_summary = analysis_summary
-        else:
-            combined_analysis_summary = pd.concat(
-                (combined_analysis_summary, analysis_summary), axis=0)
+                combined_analysis_summary = pd.concat(
+                    (combined_analysis_summary, analysis_summary), axis=0)
 
-        commit_id, version = utils.get_pipeline_info(repo_root=tool_root)
-        workflow_root = list(m.values())[0].split('/call-')[0]
-        run_data.append([
-            run_id, sample_id, run_date, workflow_name, version,
-            commit_id, workflow_root, run_id_to_input_fp[run_id], log_fp,
-            run_list_fp])
+            commit_id, version = utils.get_pipeline_info(repo_root=tool_root)
+            workflow_root = list(m.values())[0].split('/call-')[0]
+            run_data.append([
+                run_id, sample_id, run_date, workflow_name, version,
+                commit_id, workflow_root, run_id_to_input_fp[run_id], log_fp,
+                run_list_fp])
     if run_data:
         run_summary = pd.DataFrame(
             data=run_data,
