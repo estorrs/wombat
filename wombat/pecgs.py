@@ -285,7 +285,7 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
 
     input_dir = os.path.join(run_dir, 'inputs')
     input_fps = sorted(utils.listfiles(input_dir, regex=r'.input.yaml$'))
-    run_id_to_input_fp = {fp.split('/')[-1].split('.')[0]: fp
+    run_id_to_input_fp = {fp.split('/')[-1].split('.input.yaml')[0]: fp
                           for fp in input_fps}
 
     log_dir = os.path.join(run_dir, 'logs')
