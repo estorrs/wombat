@@ -21,11 +21,8 @@ def parse_output_from_log(log_fp, workflow_name):
     section_indent = None
     m = {}
     lines = []
-    add = False
     for line in f:
         if "workflow finished with status 'Succeeded'" in line:
-            add = True
-        if add:
             lines.append(line)
 
     for line in lines:
