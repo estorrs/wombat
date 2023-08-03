@@ -384,7 +384,7 @@ def from_run_list(
         else:
             raise RuntimeError(f'{pipeline_name} is not a valid pipeline variant')
 
-        if d['project'].upper() in DISEASE_TO_RESCUE_BED:
+        if d['project'].upper() in DISEASE_TO_RESCUE_BED and pipeline_name in ['pecgs_TN_wxs_fq', 'pecgs_TN_wxs_bam']:
             if d['disease'].upper() in DISEASE_TO_RESCUE_BED[d['project'].upper()]:
                 rescue_bed = DISEASE_TO_RESCUE_BED[d['project'].upper()][d['disease'].upper()]
                 post = rescue_bed.split('/')[-1]
