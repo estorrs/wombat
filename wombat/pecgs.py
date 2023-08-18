@@ -340,6 +340,7 @@ def generate_analysis_summary(tool_root, run_list, run_dir, workflow_name):
                 run_id, sample_id, run_uuid, run_date, workflow_name, version,
                 commit_id, workflow_root, run_id_to_input_fp[run_id], log_fp,
                 run_list_fp, ', '.join(run_list.loc[run_id, uuid_cols].to_list())])
+        
     if run_data:
         run_summary = pd.DataFrame(
             data=run_data,
@@ -374,7 +375,7 @@ def from_run_list(
     for sample, d in run_list.items():
         if pipeline_name == 'pecgs_TN_wxs_fq':
             input = generate_input_TN_wxs_fq(
-                d, sequencing_info_map.get(sample))
+                d, sequencing_info_map.get(sample) if sequencing_info_map is not None else None)
         elif pipeline_name == 'pecgs_TN_wxs_bam':
             input = generate_input_TN_wxs_bam(d)
         elif pipeline_name == 'pecgs_TN_wgs_bam':
